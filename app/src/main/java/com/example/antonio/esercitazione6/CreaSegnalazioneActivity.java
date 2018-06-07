@@ -39,6 +39,5 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
             }});
 
 
-
     }
 }
