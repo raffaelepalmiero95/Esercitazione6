@@ -2,7 +2,6 @@
     <string name="app_name">Esercitazione6</string>
     <string name="torna_alla_home">Torna alla Home</string>
     <string name="bacheca">Bacheca</string>
-    <string name="bacheca">Bacheca</string>
     <string name="segnala">Segnala</string>
     <string name="descrivi_brevemente_il_problema">Descrivi Brevemente Il Problema</string>
     <string name="annulla">Annulla</string>
@@ -27,4 +26,9 @@
     <string name="e_mail">E-Mail:</string>
     <string name="cognome">Cognome:</string>
     <string name="nome">Nome:</string>
+    <string name="TextViewNomeUtente" />
+    <string name="TextViewCognomeUtente" />
+    <string name="TextViewCodFiscaleUtente" />
+    <string name="TextViewResidenzaUtente" />
+    <string name="TextViewEmailUtente" />
 </resources>
