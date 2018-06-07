@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class CreaSegnalazioneActivity extends AppCompatActivity {
 
@@ -28,6 +30,14 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
                 Intent torna_alla_home = new Intent(CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(torna_alla_home);
             }});
+        invio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"Segnalazione Inviata", Toast.LENGTH_LONG).show();
+                Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,CreaSegnalazioneActivity.class);
+                startActivity(ricarica_pagina_segnalazione);
+            }});
+
 
 
     }
