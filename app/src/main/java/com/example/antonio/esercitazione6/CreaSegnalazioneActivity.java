@@ -37,7 +37,5 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
                 Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,CreaSegnalazioneActivity.class);
                 startActivity(ricarica_pagina_segnalazione);
             }});
-
-
     }
 }
