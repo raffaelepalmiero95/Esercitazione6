@@ -15,6 +15,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_segnalazione);
 
+
         Button fotocamera = findViewById(R.id.button_scatta_foto);
         Button allegato = findViewById(R.id.button_Inserisci_allegato);
         Button annulla = findViewById(R.id.button_annulla);
