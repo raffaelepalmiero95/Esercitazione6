@@ -1,12 +1,23 @@
 package com.example.antonio.esercitazione6;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApi;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +52,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(passa_alla_segnalazione);
             }});
 
-
-
-
-
-
     }
+
+    private void init(){}
+
+    public boolean isServicesOK()
+        {
+        Log.d(TAG, "Il servizio è funzionante la versione di google è ");
+        int avaible = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
+        if (avaible == ConnectionResult.SUCCESS) {
+            Log.d(TAG, "Il servizio è funzionante e sta lavorando");
+            return true;
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(avaible)) {
+            Log.d(TAG, "Il servizio non è funzionante ma possiamo correggerlo");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, avaible, ERROR_DIALOG_REQUEST);
+            dialog.show();
+            ;
+        } else {
+            Toast.makeText(this, "Non puoi richiedere la mappa", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+        }
 }
