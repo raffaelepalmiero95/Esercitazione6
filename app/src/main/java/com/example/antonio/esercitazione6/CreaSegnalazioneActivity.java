@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class CreaSegnalazioneActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +37,9 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Segnalazione Inviata", Toast.LENGTH_LONG).show();
-                Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,CreaSegnalazioneActivity.class);
+                Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,MapActivity.class);
                 startActivity(ricarica_pagina_segnalazione);
             }});
+
     }
 }
