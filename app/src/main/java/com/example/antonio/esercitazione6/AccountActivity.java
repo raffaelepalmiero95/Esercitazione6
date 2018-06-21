@@ -114,9 +114,9 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onRequestPermissionResult(int requestCode, String[] permission, int[] grantResults)
     {
-        switch requestCode
+        switch (requestCode)
         {
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
                     if (userChoosenTask.equals("Scatta una foto"))
@@ -140,7 +140,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         {
             try
             {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext(), getContentResolver(), data.getData());
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
             }
             catch (IOException e)
             {
@@ -155,7 +155,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress((Bitmap.CompressFormat.JPEG,90, bytes));
+        thumbnail.compress(Bitmap.CompressFormat.JPEG,90, bytes);
         File destination = new File (Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpeg");
 
         FileOutputStream fo;
