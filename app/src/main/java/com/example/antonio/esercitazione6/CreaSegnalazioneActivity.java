@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class CreaSegnalazioneActivity extends AppCompatActivity {
+
+    ImageView
 
 
 

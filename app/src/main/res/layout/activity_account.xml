@@ -71,8 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.027"
-        app:srcCompat="@android:color/black"
-        />
+        app:srcCompat="@drawable/icona_account" />
 
     <TextView
         android:id="@+id/textView8"
@@ -128,4 +127,12 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/icona_aggiungi_foto"
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="163dp" />
 </android.support.constraint.ConstraintLayout>

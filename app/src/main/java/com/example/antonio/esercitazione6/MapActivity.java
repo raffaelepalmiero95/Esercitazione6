@@ -28,8 +28,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "La mappa è pronta porca puttana", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onMapReady: la mappa è pronta porca miseria");
+        Toast.makeText(this, "La mappa è pronta", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onMapReady: la mappa è pronta");
         mMap = googleMap;
         if (mLocationPermissionGranted) {
             getDeviceLocation();
@@ -104,7 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initMap()
     {
-        Log.d(TAG,"initMap:inizializzazione mappa troieee");
+        Log.d(TAG,"initMap:inizializzazione mappa");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapActivity.this);
     }
