@@ -1,7 +1,7 @@
 <resources>
     <string name="google_maps_API_key">AIzaSyDNPEUZMeEVrNvXR9UHVYghC8mTjIaeLPI</string>
     <string name="app_name">Esercitazione6</string>
-    <string name="torna_alla_home">Torna alla Home</string>
+    <string name="torna_alla_home">Bacheca</string>
     <string name="bacheca">Bacheca</string>
     <string name="segnala">Segnala</string>
     <string name="descrivi_brevemente_il_problema">Descrivi Brevemente Il Problema</string>
