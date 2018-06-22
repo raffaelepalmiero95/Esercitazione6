@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class CreaSegnalazioneActivity extends AppCompatActivity {
 
@@ -35,10 +34,12 @@ public class CreaSegnalazioneActivity extends AppCompatActivity {
         invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Segnalazione Inviata", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Segnalazione Inviata", Toast.LENGTH_LONG).show();
                 Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,MapActivity.class);
                 startActivity(ricarica_pagina_segnalazione);
             }});
 
     }
+
+
 }

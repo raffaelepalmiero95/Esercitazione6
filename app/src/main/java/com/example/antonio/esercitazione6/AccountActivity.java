@@ -19,144 +19,138 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-
-public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
+public class AccountActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView profile_img;
-    private ImageView camera;
-    private String userChoosenTask;
-    private int REQUEST_CAMERA=0, SELECT_FILE=1;
 
+    private ImageView camera;
+
+    private String userChoosenTask;
+
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_account);
-            setUI ();
+            setUI();
             setUITEXT();
-
-        }
-        catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void setUITEXT () {
-
+    private void setUITEXT() {
     }
 
-    private void setUI () {
-        profile_img = (ImageView) findViewById(R.id.imageView);
-        camera = (ImageView) findViewById(R.id.imageButton);
+    private void setUI() {
+        profile_img = (ImageView)findViewById(R.id.imageView);
+        camera = (ImageView)findViewById(R.id.imageButton);
         camera.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        switch (view.getId()){
             case R.id.imageButton:
                 selectImage();
                 break;
         }
     }
 
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
     }
 
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
 
-    private void selectImage() {
-        final CharSequence[] items = {"Scatta una foto", "Scegli dalla galleria", "Indietro"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder( AccountActivity.this);
+    private void selectImage() {
+        final CharSequence[] items = { "Scatta foto", "Scegli dalla galleria",
+                "Indietro" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
         builder.setTitle("Foto aggiunta");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result = Utility.checkPermission( AccountActivity.this);
-                if (items[item].equals("Scatta una foto")){
-                    userChoosenTask = "Scatta una foto";
-                    if (result)
+                boolean result=Utility.checkPermission(AccountActivity.this);
+                if (items[item].equals("Scatta foto")) {
+                    userChoosenTask ="Scatta foto";
+                    if(result)
                         cameraIntent();
-                }
-                else if (items[item].equals("Scegli dalla galleria")){
-                    userChoosenTask = "Scegli dalla galleria";
-                    if (result)
+                } else if (items[item].equals("Scegli dalla galleria")) {
+                    userChoosenTask ="Scegli dalla galleria";
+                    if(result)
                         galleryIntent();
-                }
-                else if (items[item].equals("Indietro")){
-                   dialog.dismiss();
+                } else if (items[item].equals("Indietro")) {
+                    dialog.dismiss();
                 }
             }
         });
         builder.show();
     }
 
-    private void galleryIntent(){
+
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Seleziona il file"), SELECT_FILE);
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Seleziona file"),SELECT_FILE);
     }
 
-    private void cameraIntent(){
+    private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    public void onRequestPermissionResult(int requestCode, String[] permission, int[] grantResults)
-    {
-        switch (requestCode)
-        {
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
             case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    if (userChoosenTask.equals("Scatta una foto"))
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if(userChoosenTask.equals("Scatta foto"))
                         cameraIntent();
-                    else if (userChoosenTask.equals("Scegli dalla galleria"))
+                    else if(userChoosenTask.equals("Scegli dalla galleria"))
                         galleryIntent();
-
+                } else {
+                    //code for deny
                 }
-                else {
-
-                     }
                 break;
         }
     }
 
-
-    private void onSelectFromGalleryResult(Intent data)
-    {
-        Bitmap bm = null;
-        if (data != null)
-        {
-            try
-            {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
         }
-
-        profile_img.setImageBitmap(bm);
     }
-
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG,90, bytes);
-        File destination = new File (Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpeg");
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
 
         FileOutputStream fo;
         try {
@@ -164,24 +158,24 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             fo = new FileOutputStream(destination);
             fo.write(bytes.toByteArray());
             fo.close();
-        }
-        catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         profile_img.setImageBitmap(thumbnail);
     }
 
-
-    public void onActivityResult (int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if (resultCode == Activity.RESULT_OK){
-            if(requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        profile_img.setImageBitmap(bm);
     }
 }
