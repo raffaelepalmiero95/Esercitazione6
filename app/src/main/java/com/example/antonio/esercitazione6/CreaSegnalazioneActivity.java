@@ -73,6 +73,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             setUITEXT();
         }catch (Exception e){
             e.printStackTrace();
+
         }
          fotocamera = findViewById(R.id.imageButton2);
          annulla = findViewById(R.id.button_annulla);
