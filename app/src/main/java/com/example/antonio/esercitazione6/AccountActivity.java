@@ -9,12 +9,20 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,12 +33,10 @@ import java.io.IOException;
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ImageView profile_img;
-
     private ImageView camera;
-
     private String userChoosenTask;
-
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private Button gestione;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,15 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             camera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
+        gestione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gestioneaccount = new Intent(AccountActivity.this, GestioneActivity.class);
+                startActivity(gestioneaccount);
+            }
+        });
     }
-
-
 
     private void setUITEXT() {
     }

@@ -34,4 +34,21 @@
     <string name="TextViewEmailUtente" />
     <string name="button_posizione">Ok</string>
     <string name="descrivi">Descrivi brevemente il problema</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_reset_password">Password dimenticata?</string>
+    <string name="btn_signup">Registrati</string>
+    <string name="btn_reset_password2">Reset password</string>
+    <string name="btn_back"><![CDATA[<< Back]]></string>
+    <string name="btn_back2"><![CDATA[<< Indietro]]></string>
+    <string name="sign_up_button">Registrati</string>
+    <string name="sign_in_button">Già registrato? Login</string>
+    <string name="sign_out">Logout</string>
+    <string name="btn_sign_up2">Registrati</string>
+    <string name="change_password_button">Cambia password</string>
+    <string name="changePass">Cambia</string>
+    <string name="remove">Rimuovi</string>
+    <string name="btn_gestione">Gestione account</string>
+    <string name="useremail">User ID</string>
+    <string name="minimum_password">La password è troppo corta, inserisci almeno 6 caratteri</string>
+    <string name="auth_failed">Autenticazione fallita</string>
 </resources>

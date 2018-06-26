@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- <uses-feature android:name="android.hardware.camera" android:required="false" /> -->
 
     <application
         android:allowBackup="true"
@@ -36,12 +35,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".CreaSegnalazioneActivity" />
         <activity android:name=".BachecaActivity" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
         <activity android:name=".AccountActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".HomeActivity">
@@ -51,23 +46,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".GestioneActivity"></activity>
     </application>
-
-
-
-
-  <!--
-    codice originale prima di cambiare l'ordine delle activity
-    <activity android:name=".MainActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-
-            <activity android:name=".HomeActivity"></activity>
-    -->
 
 </manifest>

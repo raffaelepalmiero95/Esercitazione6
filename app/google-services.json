@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "608441764751",
+    "firebase_url": "https://esercitazione6-33ad9.firebaseio.com",
+    "project_id": "esercitazione6-33ad9",
+    "storage_bucket": "esercitazione6-33ad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608441764751:android:955861d85d2457db",
+        "android_client_info": {
+          "package_name": "com.example.antonio.esercitazione6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608441764751-m47q6cchfo1htm0bm0lj2vqgvpjn43po.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.antonio.esercitazione6",
+            "certificate_hash": "c80b5502f5c7c5bce29966adc21128190b91e538"
+          }
+        },
+        {
+          "client_id": "608441764751-4gvhi7o1ktm9j6kdp6md0v08pp2na3q4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkuZWeJPR7IOpK1YWYuX7Z4WoW4FNLmUU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608441764751-4gvhi7o1ktm9j6kdp6md0v08pp2na3q4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

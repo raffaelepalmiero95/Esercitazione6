@@ -20,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
+    private Button login;
+    private Button bacheca;
+    private Button segnala;
+
 
 
     @Override
@@ -30,15 +34,15 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Button login=findViewById(R.id.button_login);
-        Button bacheca= findViewById(R.id.button_vai_alla_bacheca);
-        Button segnala=findViewById(R.id.button_aggiungi_segnalazione);
+         login=findViewById(R.id.button_login);
+         bacheca= findViewById(R.id.button_vai_alla_bacheca);
+         segnala=findViewById(R.id.button_aggiungi_segnalazione);
 
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent passa_al_login = new Intent(MainActivity.this,AccountActivity.class);
+                Intent passa_al_login = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(passa_al_login);
             }});
 
