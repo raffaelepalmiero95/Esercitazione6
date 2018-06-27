@@ -180,7 +180,7 @@ public class GestioneActivity extends AppCompatActivity {
         }
     };
 
-
+//dobbiamo far andare da logout a main activity e non a login
     public void signOut() {
         auth.signOut();
         FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
