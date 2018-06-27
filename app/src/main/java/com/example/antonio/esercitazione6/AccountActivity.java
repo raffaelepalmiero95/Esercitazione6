@@ -78,8 +78,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
          });
 
-
-
         if (auth.getCurrentUser() != null) {
             log.setText("Gestione Account");
         }
