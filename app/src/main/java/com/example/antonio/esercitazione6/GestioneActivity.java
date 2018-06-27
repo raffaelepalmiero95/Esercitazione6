@@ -187,8 +187,8 @@ public class GestioneActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-
+               if (user == null)
+                {
                     startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
                     finish();
                 }
