@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
          bacheca= findViewById(R.id.button_vai_alla_bacheca);
          segnala=findViewById(R.id.button_aggiungi_segnalazione);
 
-
+//in questo login bisogna inserire un if dove se il login è stato effettuato non apre loginactivity ma apre accountactivity
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

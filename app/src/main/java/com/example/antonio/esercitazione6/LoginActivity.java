@@ -22,10 +22,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
+
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-           //if (auth.getCurrentUser() != null) {
-          // startActivity(new Intent(LoginActivity.this, GestioneActivity.class));
-          // finish();
-       // }
+        //queste righe commentate fanno funzionare l'app, altrimenti crasha sul login
+
+       // if (auth.getCurrentUser() != null) {
+       //     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        //    finish();
+        //}
 
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -82,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-
+                //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
