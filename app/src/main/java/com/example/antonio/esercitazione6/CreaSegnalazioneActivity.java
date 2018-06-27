@@ -168,7 +168,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Seleziona file"),SELECT_FILE);
     }
 
@@ -189,7 +189,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
                     else if(userChoosenTask.equals("Scegli dalla galleria"))
                         galleryIntent();
                 } else {
-                    //code for deny
                 }
                 break;
         }

@@ -1,6 +1,7 @@
 package com.example.antonio.esercitazione6;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,7 +14,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,12 +37,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    //aggiunto dopo
+    private Button ok;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "onMapReady: La mappa è pronta");
+        Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
 
         if (mLocationPermissionsGranted) {
@@ -57,7 +63,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private static final String TAG = "MapActivity";
+    private static final String TAG = "Mappa";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -77,15 +83,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
-
         getLocationPermission();
-
-
-
     }
 
+
     private void init(){
-        Log.d(TAG, "init: initializing");
+        Log.d(TAG, "inizializza");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -94,8 +97,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-
-                    //execute our method for searching
                     geoLocate();
                 }
 
@@ -105,7 +106,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void geoLocate(){
-        Log.d(TAG, "geoLocate: geolocating");
+        Log.d(TAG, "Geolocalizzazione");
 
         String searchString = mSearchText.getText().toString();
 
@@ -114,13 +115,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try{
             list = geocoder.getFromLocationName(searchString, 1);
         }catch (IOException e){
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage() );
+            Log.e(TAG, "geolocalizzazione: " + e.getMessage() );
         }
 
         if(list.size() > 0){
             Address address = list.get(0);
 
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            Log.d(TAG, "trovata una posizione: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
 
             moveCamera(new LatLng(address.getLatitude(),address.getLongitude()), DEFAULT_ZOOM,
@@ -130,7 +131,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void getDeviceLocation(){
-        Log.d(TAG, "getDeviceLocation: getting the devices current location");
+        Log.d(TAG, "posizione attuale");
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -142,7 +143,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
-                            Log.d(TAG, "onComplete: found location!");
+                            Log.d(TAG, "posizione trovata");
                             Location currentLocation = (Location) task.getResult();
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
@@ -150,19 +151,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     "posizione attuale");
 
                         }else{
-                            Log.d(TAG, "onComplete: current location is null");
-                            Toast.makeText(MapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "la posizione attuale è nulla");
+                            Toast.makeText(MapActivity.this, "impossibile trovare la posizione attuale", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         }catch (SecurityException e){
-            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+            Log.e(TAG, "SecurityException: " + e.getMessage() );
         }
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title){
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        Log.d(TAG, "muovi visuale: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
@@ -172,14 +173,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initMap(){
-        Log.d(TAG, "initMap: initializing map");
+        Log.d(TAG, "inizializzo mappa");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(MapActivity.this);
     }
 
     private void getLocationPermission(){
-        Log.d(TAG, "getLocationPermission: getting location permissions");
+        Log.d(TAG, "ho i permessi di localizzazione");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -203,7 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult: called.");
+        Log.d(TAG, "");
         mLocationPermissionsGranted = false;
 
         switch(requestCode){
@@ -212,13 +213,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     for(int i = 0; i < grantResults.length; i++){
                         if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
                             mLocationPermissionsGranted = false;
-                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                            Log.d(TAG, "permessi falliti");
                             return;
                         }
                     }
-                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                    Log.d(TAG, "permessi accordati");
                     mLocationPermissionsGranted = true;
-                    //initialize our map
                     initMap();
                 }
             }

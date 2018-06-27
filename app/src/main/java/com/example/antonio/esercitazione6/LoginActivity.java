@@ -36,12 +36,10 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        //queste righe commentate fanno funzionare l'app, altrimenti crasha sul login
-
-       // if (auth.getCurrentUser() != null) {
-       //     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        //    finish();
-        //}
+           if (auth.getCurrentUser() != null) {
+           startActivity(new Intent(LoginActivity.this, GestioneActivity.class));
+            finish();
+           }
 
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -86,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                //authenticate user
+
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -101,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, GestioneActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);  //qui c'era accountactivity
                                     startActivity(intent);
                                     finish();
                                 }

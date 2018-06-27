@@ -30,12 +30,12 @@ public class GestioneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_gestione);
 
         auth = FirebaseAuth.getInstance();
         email = (TextView) findViewById(R.id.useremail);
 
-        //get current user
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         setDataToView(user);
 
@@ -137,7 +137,7 @@ public class GestioneActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato eliminato", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato disconnesso", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(GestioneActivity.this, SignupActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
@@ -162,10 +162,7 @@ public class GestioneActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     private void setDataToView(FirebaseUser user) {
-
         email.setText("Email utente: " + user.getEmail());
-
-
     }
 
 
@@ -179,19 +176,13 @@ public class GestioneActivity extends AppCompatActivity {
                 finish();
             } else {
                 setDataToView(user);
-
             }
         }
-
-
     };
 
 
     public void signOut() {
         auth.signOut();
-
-
-
         FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

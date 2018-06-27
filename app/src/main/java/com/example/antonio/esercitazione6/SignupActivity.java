@@ -79,11 +79,18 @@ public class SignupActivity extends AppCompatActivity {
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignupActivity.this, "Account creato con successo " + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+
+                               // Toast.makeText(SignupActivity.this, "Account creato con successo " + task.isSuccessful(), Toast.LENGTH_SHORT).show(); con task
+
+                                Toast.makeText(SignupActivity.this, "Account creato con successo " , Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
 
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "Autenticazione fallita " + task.getException(),
+
+                                   // Toast.makeText(SignupActivity.this, "Autenticazione fallita " + task.getException(),
+                                         //   Toast.LENGTH_SHORT).show(); codice con task
+
+                                    Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));

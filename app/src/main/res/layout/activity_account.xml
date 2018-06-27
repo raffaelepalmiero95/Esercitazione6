@@ -189,15 +189,15 @@
         app:layout_constraintStart_toEndOf="@+id/email" />
 
     <Button
-        android:id="@+id/btn_gestione"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_log"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/btn_gestione"
-        app:layout_constraintBottom_toTopOf="@+id/nome_profilo"
+        android:text="@string/btn_log"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />

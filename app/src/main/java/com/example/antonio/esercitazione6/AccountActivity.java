@@ -1,6 +1,7 @@
 package com.example.antonio.esercitazione6;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,11 +37,20 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView camera;
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private Button gestione;
+    private Button log;
+
+    //dopo
+    private FirebaseAuth auth;
+    //ok
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //dopo
+        auth = FirebaseAuth.getInstance();
+        //ok
+
         try {
             setContentView(R.layout.activity_account);
             setUI();
@@ -54,13 +64,33 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
 
-        gestione.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gestioneaccount = new Intent(AccountActivity.this, GestioneActivity.class);
-                startActivity(gestioneaccount);
-            }
-        });
+
+
+         log = findViewById(R.id.btn_log);
+
+         log.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent log_account = new Intent(AccountActivity.this, LoginActivity.class);
+                 startActivity(log_account);
+             }
+
+
+         });
+
+        //inizio
+
+        if (auth.getCurrentUser() != null) {
+            log.setText("Gestione Account");
+        }
+
+        else {
+            log.setText("Login");
+        }
+
+
+        //fine
+
     }
 
     private void setUITEXT() {
@@ -150,7 +180,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     else if(userChoosenTask.equals("Scegli dalla galleria"))
                         galleryIntent();
                 } else {
-                    //code for deny
                 }
                 break;
         }
@@ -200,4 +229,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
         profile_img.setImageBitmap(bm);
     }
+
+
 }
