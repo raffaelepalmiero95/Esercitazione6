@@ -38,10 +38,10 @@ public class LoginActivity extends AppCompatActivity {
 
         //queste righe commentate fanno funzionare l'app, altrimenti crasha sul login
 
-       // if (auth.getCurrentUser() != null) {
-       //     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        //    finish();
-        //}
+       if (auth.getCurrentUser() != null) {
+         startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
 
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);

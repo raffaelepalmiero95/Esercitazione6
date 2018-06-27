@@ -54,6 +54,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
 
+        gestione = findViewById(R.id.btn_gestione);
         gestione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApi;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private Button bacheca;
     private Button segnala;
+
 
 
 
@@ -42,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent passa_al_login = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(passa_al_login);
+                      Intent passa_al_login = new Intent(MainActivity.this, LoginActivity.class);
+                      startActivity(passa_al_login);
+
             }});
 
 
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void init(){}
+
 
     public boolean isServicesOK()
         {
@@ -85,4 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
         }
+
+
 }
