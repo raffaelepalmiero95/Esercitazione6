@@ -39,17 +39,17 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
 
-    //dopo
+
     private FirebaseAuth auth;
-    //ok
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //dopo
+
         auth = FirebaseAuth.getInstance();
-        //ok
+
 
         try {
             setContentView(R.layout.activity_account);
@@ -78,7 +78,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
          });
 
-        //inizio
+
 
         if (auth.getCurrentUser() != null) {
             log.setText("Gestione Account");
@@ -89,7 +89,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        //fine
+
 
     }
 
