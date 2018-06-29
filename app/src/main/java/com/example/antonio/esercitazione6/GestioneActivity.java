@@ -137,7 +137,7 @@ public class GestioneActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato disconnesso", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato eliminato", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(GestioneActivity.this, SignupActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
@@ -159,6 +159,8 @@ public class GestioneActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     @SuppressLint("SetTextI18n")
     private void setDataToView(FirebaseUser user) {
@@ -187,7 +189,7 @@ public class GestioneActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-               if (user == null)
+              if (user == null)
                 {
                     startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
                     finish();
@@ -195,6 +197,7 @@ public class GestioneActivity extends AppCompatActivity {
             }
         };
     }
+
 
     @Override
     protected void onResume() {

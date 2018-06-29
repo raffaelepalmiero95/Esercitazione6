@@ -17,10 +17,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
+
 
 
     @Override
@@ -36,6 +37,12 @@ public class SignupActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+
+        //aggiunto da anto
+        inputNome = (EditText) findViewById(R.id.registra_nome);
+        inputCognome = (EditText) findViewById(R.id.registra_cognome);
+        inputResidenza = (EditText) findViewById(R.id.registra_residenza);
+        //fine
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +64,13 @@ public class SignupActivity extends AppCompatActivity {
 
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+
+                //aggiunta anto
+                String nome = inputNome.getText().toString().trim();
+                String cognome = inputCognome.getText().toString().trim();
+                String residenza = inputResidenza.getText().toString().trim();
+                //fine
+
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Inserisci l'indirizzo Email", Toast.LENGTH_SHORT).show();
@@ -80,15 +94,10 @@ public class SignupActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                               // Toast.makeText(SignupActivity.this, "Account creato con successo " + task.isSuccessful(), Toast.LENGTH_SHORT).show(); con task
-
                                 Toast.makeText(SignupActivity.this, "Account creato con successo " , Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
 
                                 if (!task.isSuccessful()) {
-
-                                   // Toast.makeText(SignupActivity.this, "Autenticazione fallita " + task.getException(),
-                                         //   Toast.LENGTH_SHORT).show(); codice con task
 
                                     Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();

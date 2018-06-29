@@ -38,9 +38,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
-
-
     private FirebaseAuth auth;
+
 
 
     @Override
@@ -49,6 +48,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
 
         auth = FirebaseAuth.getInstance();
+
 
 
         try {
@@ -63,6 +63,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             camera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
+
 
 
 
@@ -85,11 +87,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         else {
             log.setText("Login");
         }
-
-
-
-
     }
+
 
     private void setUITEXT() {
     }
@@ -227,6 +226,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
         profile_img.setImageBitmap(bm);
     }
+
+
 
 
 }

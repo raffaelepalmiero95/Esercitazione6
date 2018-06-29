@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/sign_out"
         android:layout_alignStart="@+id/sign_out"
-        android:text="Cambia utente "
+        android:text="Rimuovi utente "
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sign_out"
         app:layout_constraintEnd_toEndOf="parent"
