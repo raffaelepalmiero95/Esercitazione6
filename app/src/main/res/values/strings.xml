@@ -52,4 +52,8 @@
     <string name="minimum_password">La password è troppo corta, inserisci almeno 6 caratteri</string>
     <string name="auth_failed">Autenticazione fallita</string>
     <string name="btn_log">Login</string>
+    <string name="text_nome">Inserisci Nome</string>
+    <string name="text_cognome">Inserisci Cognome</string>
+    <string name="text_comune">Comune di residenza</string>
+    <string name="btn_registrazione">Registrazione</string>
 </resources>

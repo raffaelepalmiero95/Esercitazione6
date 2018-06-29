@@ -49,7 +49,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".GestioneActivity"></activity>
+        <activity android:name=".GestioneActivity" />
     </application>
 
 </manifest>
