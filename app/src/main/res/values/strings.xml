@@ -56,4 +56,5 @@
     <string name="text_cognome">Inserisci Cognome</string>
     <string name="text_comune">Comune di residenza</string>
     <string name="btn_registrazione">Registrazione</string>
+    <string name="text_problema">Descrivi brevemente il problema</string>
 </resources>

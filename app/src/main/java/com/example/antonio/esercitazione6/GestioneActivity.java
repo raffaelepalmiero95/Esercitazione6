@@ -155,6 +155,7 @@ public class GestioneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signOut();
+
             }
         });
 
@@ -174,7 +175,7 @@ public class GestioneActivity extends AppCompatActivity {
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
-                startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
+                startActivity(new Intent(GestioneActivity.this, LoginActivity.class));//era login
                 finish();
             } else {
                 setDataToView(user);
@@ -191,7 +192,7 @@ public class GestioneActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
               if (user == null)
                 {
-                    startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
+                   //startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
                     finish();
                 }
             }

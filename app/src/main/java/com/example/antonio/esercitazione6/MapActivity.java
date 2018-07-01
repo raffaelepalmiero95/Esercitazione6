@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +41,12 @@ import java.util.List;
 
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    //aggiunto dopo
+public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyCallback {//messoCreasegnalazione al posto di AppCompact
+
     private Button ok;
+
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -48,12 +54,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
 
-        if (mLocationPermissionsGranted) {
+
+        if (mLocationPermissionsGranted)
+        {
             getDeviceLocation();
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
                 return;
             }
             mMap.setMyLocationEnabled(true);
@@ -61,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             init();
         }
+
     }
 
     private static final String TAG = "Mappa";
@@ -83,6 +93,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
+        //inizio
+        ok = (Button) findViewById(R.id.btn_ok);
+        //fine
+
+        //inizio
+        ok.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+
+
+                String descrizione= problema.getText().toString();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                myRef.child("Users").child("Nome").setValue("Giuseppe");
+                myRef.child("Users").child("Cognome").setValue("Diana");
+                myRef.child("Users").child("Problema").setValue(descrizione);
+                startActivity(new Intent(MapActivity.this,MainActivity.class));
+                finish();
+
+            }
+        });
+        //fine
         getLocationPermission();
     }
 

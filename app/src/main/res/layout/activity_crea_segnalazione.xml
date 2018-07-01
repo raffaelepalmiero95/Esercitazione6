@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/text_problema"
         app:srcCompat="?android:attr/selectableItemBackground" />
 
     <ImageButton
@@ -85,12 +85,12 @@
         app:layout_constraintEnd_toEndOf="@+id/image_anteprima"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/text_problema"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/icona_aggiungi_foto" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/text_problema"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

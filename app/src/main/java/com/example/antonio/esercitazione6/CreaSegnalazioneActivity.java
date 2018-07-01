@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.Manifest;
 import android.app.Activity;
@@ -63,6 +64,9 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
     private Button annulla;
 
     private  Button invio;
+    //inizio
+    public EditText problema;
+    //fine
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +81,10 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
          fotocamera = findViewById(R.id.imageButton2);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
-
-        invio.setOnClickListener(null);
+         //inizio
+         problema =(EditText) findViewById(R.id.text_problema);
+         //fine
+       //invio.setOnClickListener(null);
 
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +104,8 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             fotocamera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
+
     }
 
 

@@ -19,8 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    private static final int ERROR_DIALOG_REQUEST = 9001;
+    // private static final String TAG = "MainActivity";
+   // private static final int ERROR_DIALOG_REQUEST = 9001;
 
     private Button login;
     private Button bacheca;
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-          private void init(){}
+    /*private void init(){}
 
     public boolean isServicesOK()
         {
@@ -98,5 +98,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Non puoi richiedere la mappa", Toast.LENGTH_SHORT).show();
         }
         return false;
-        }
+        }*/
 }
