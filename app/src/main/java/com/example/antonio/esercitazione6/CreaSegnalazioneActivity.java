@@ -82,9 +82,9 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
          //inizio
-         problema =(EditText) findViewById(R.id.text_problema);
+        problema =findViewById(R.id.text_problema);
          //fine
-       //invio.setOnClickListener(null);
+
 
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +95,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(getApplicationContext(),"Segnalazione Inviata", Toast.LENGTH_LONG).show();
                 Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,MapActivity.class);
                 startActivity(ricarica_pagina_segnalazione);
             }});

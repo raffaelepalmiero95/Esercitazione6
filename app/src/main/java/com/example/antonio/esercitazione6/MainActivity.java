@@ -19,13 +19,14 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    // private static final String TAG = "MainActivity";
-   // private static final int ERROR_DIALOG_REQUEST = 9001;
 
     private Button login;
     private Button bacheca;
     private Button segnala;
     private FirebaseAuth auth;
+    //
+    public boolean counter_pagine;
+    //
 
 
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         bacheca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                counter_pagine=true;
+
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, BachecaActivity.class));
                     finish();
@@ -59,12 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Intent passa_alla_bacheca = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(passa_alla_bacheca);
+
+
                 }
             }});
 
         segnala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                counter_pagine=false;
 
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
@@ -80,23 +86,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*private void init(){}
 
-    public boolean isServicesOK()
-        {
-        Log.d(TAG, "Il servizio è funzionante la versione di google è ");
-        int avaible = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
-        if (avaible == ConnectionResult.SUCCESS) {
-            Log.d(TAG, "Il servizio è funzionante e sta lavorando");
-            return true;
-        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(avaible)) {
-            Log.d(TAG, "Il servizio non è funzionante ma possiamo correggerlo");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, avaible, ERROR_DIALOG_REQUEST);
-            dialog.show();
-            ;
-        } else {
-            Toast.makeText(this, "Non puoi richiedere la mappa", Toast.LENGTH_SHORT).show();
-        }
-        return false;
-        }*/
 }

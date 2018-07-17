@@ -20,13 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends MainActivity {
 
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
+
+    //
+    public Integer counter;
+    //
 
 
     @Override
@@ -37,9 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
            if (auth.getCurrentUser() != null) {
-           startActivity(new Intent(LoginActivity.this, GestioneActivity.class));
+            startActivity(new Intent(LoginActivity.this, GestioneActivity.class));
             finish();
-           }
+        }
 
         setContentView(R.layout.activity_login);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -98,9 +102,17 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);  //qui c'era accountactivity
-                                    startActivity(intent);
-                                    finish();
+                                        if (counter_pagine == true) {
+                                            Intent intent_bacheca = new Intent(LoginActivity.this, BachecaActivity.class);
+                                            startActivity(intent_bacheca);
+                                            finish();
+                                        }
+
+                                        else{
+                                            Intent intent_crea_segn = new Intent(LoginActivity.this, CreaSegnalazioneActivity.class);
+                                            startActivity(intent_crea_segn);
+                                            finish();
+                                        }
                                 }
                             }
                         });

@@ -48,6 +48,8 @@ public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyC
 
 
 
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
@@ -79,11 +81,7 @@ public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyC
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 18f;
-
-    //widgets
     private EditText mSearchText;
-
-    //vars
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -104,14 +102,17 @@ public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyC
             public void onClick(View v)
             {
 
+                //ci serve inputnome e inputcognome inputemail e inputresidenza da signupact
+                //deve salvare la posizione come lat e long nel database
+                //sostituisce ogni volta il vecchio utente e non aggiunge uno nuovo
+                //non prende descrizione da problema in creasegnalazione
 
-
-                String descrizione= problema.getText().toString();
+                //String descrizione= problema.getText().toString();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child("Nome").setValue("Giuseppe");
-                myRef.child("Users").child("Cognome").setValue("Diana");
-                myRef.child("Users").child("Problema").setValue(descrizione);
+                myRef.child("Users").child("Nome").setValue("Raffaele");
+                myRef.child("Users").child("Cognome").setValue("Palmiero");
+                myRef.child("Users").child("Problema").setValue(problema.getText().toString());
                 startActivity(new Intent(MapActivity.this,MainActivity.class));
                 finish();
 
