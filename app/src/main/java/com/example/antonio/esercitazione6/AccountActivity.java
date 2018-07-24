@@ -31,7 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class AccountActivity extends AppCompatActivity implements View.OnClickListener{
+public class AccountActivity extends GestioneActivity implements View.OnClickListener{ //gestione al posto di appcompat
 
     private ImageView profile_img;
     private ImageView camera;
@@ -42,12 +42,14 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 
         auth = FirebaseAuth.getInstance();
+
 
 
 
@@ -88,6 +90,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             log.setText("Login");
         }
     }
+
 
 
     private void setUITEXT() {

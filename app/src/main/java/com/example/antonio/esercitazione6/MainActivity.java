@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bacheca;
     private Button segnala;
     private FirebaseAuth auth;
-    //
-    public boolean counter_pagine;
-    //
+
 
 
 
@@ -53,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         bacheca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                counter_pagine=true;
-
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, BachecaActivity.class));
                     finish();
@@ -62,23 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     Intent passa_alla_bacheca = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(passa_alla_bacheca);
-
-
                 }
             }});
 
         segnala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                counter_pagine=false;
 
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
                     finish();
                 }
                 else {
-                     Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
-                     startActivity(passa_alla_segnalazione);
+                    Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(passa_alla_segnalazione);
                 }
 
 

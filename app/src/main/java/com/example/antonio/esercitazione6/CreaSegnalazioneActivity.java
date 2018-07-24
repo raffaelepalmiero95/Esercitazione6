@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +37,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.firebase.client.core.Tag;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,22 +59,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //Signup al posto di appcompat
 
     private ImageView anteprima;
-
     private ImageView fotocamera;
-
     private String userChoosenTask;
-
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-
     private Button annulla;
-
     private  Button invio;
-    //inizio
     public EditText problema;
-    //fine
+    //prova
+    public int counter=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +85,9 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
          fotocamera = findViewById(R.id.imageButton2);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
+
          //inizio
-        problema =findViewById(R.id.text_problema);
+        problema = findViewById(R.id.text_problema);
          //fine
 
 
@@ -95,6 +100,17 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
+                //prova funzionante per scrivere il problema
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                myRef.child("Users").child(problema.getText().toString()).child("Problema").setValue(problema.getText().toString());
+//al posto di "utente" va problema.getText().toString() ... al posto di utente dovremmo mettere la mail di chi segnala
+                //fine
+
                 Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,MapActivity.class);
                 startActivity(ricarica_pagina_segnalazione);
             }});
@@ -245,4 +261,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         }
         anteprima.setImageBitmap(bm);
     }
+
+
 }

@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 
-public class LoginActivity extends MainActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private EditText inputEmail, inputPassword;
@@ -28,9 +28,6 @@ public class LoginActivity extends MainActivity {
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
 
-    //
-    public Integer counter;
-    //
 
 
     @Override
@@ -102,17 +99,9 @@ public class LoginActivity extends MainActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                        if (counter_pagine == true) {
-                                            Intent intent_bacheca = new Intent(LoginActivity.this, BachecaActivity.class);
-                                            startActivity(intent_bacheca);
-                                            finish();
-                                        }
-
-                                        else{
-                                            Intent intent_crea_segn = new Intent(LoginActivity.this, CreaSegnalazioneActivity.class);
-                                            startActivity(intent_crea_segn);
-                                            finish();
-                                        }
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);  //qui c'era accountactivity
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }
                         });

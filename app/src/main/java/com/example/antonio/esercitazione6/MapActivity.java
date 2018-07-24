@@ -41,7 +41,7 @@ import java.util.List;
 
 
 
-public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyCallback {//messoCreasegnalazione al posto di AppCompact
+public class MapActivity extends SignupActivity implements OnMapReadyCallback { // Messo SignUp al posto di creasegnalazione
 
     private Button ok;
 
@@ -91,34 +91,40 @@ public class MapActivity extends CreaSegnalazioneActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
+
         //inizio
         ok = (Button) findViewById(R.id.btn_ok);
         //fine
 
         //inizio
-        ok.setOnClickListener(new View.OnClickListener()
+       ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
 
-                //ci serve inputnome e inputcognome inputemail e inputresidenza da signupact
+
                 //deve salvare la posizione come lat e long nel database
                 //sostituisce ogni volta il vecchio utente e non aggiunge uno nuovo
                 //non prende descrizione da problema in creasegnalazione
 
-                //String descrizione= problema.getText().toString();
+                //scrittura sul db
+
+
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child("Nome").setValue("Raffaele");
-                myRef.child("Users").child("Cognome").setValue("Palmiero");
-                myRef.child("Users").child("Problema").setValue(problema.getText().toString());
+                //posizione salvata sul db da aggiungere
+
+                //fine
+
+
                 startActivity(new Intent(MapActivity.this,MainActivity.class));
                 finish();
 
             }
         });
         //fine
+
         getLocationPermission();
     }
 

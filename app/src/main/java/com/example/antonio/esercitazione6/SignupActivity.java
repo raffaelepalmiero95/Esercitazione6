@@ -11,13 +11,16 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class SignupActivity extends AppCompatActivity {
-    private EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
+public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegnalazione al posto di appcompatactivity
+    public EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -63,10 +66,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
+
 
                 //aggiunta anto
+                String email = inputEmail.getText().toString().trim();
+                String password = inputPassword.getText().toString().trim();
                 String nome = inputNome.getText().toString().trim();
                 String cognome = inputCognome.getText().toString().trim();
                 String residenza = inputResidenza.getText().toString().trim();
@@ -88,6 +92,19 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
+
+                //aggiunto da me
+
+                //al posto di users dobbiamo cercare di mettere una mail di chi è loggato
+
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference();
+                myRef.child("Users").child("Nome").setValue(nome);
+                myRef.child("Users").child("Cognome").setValue(cognome);
+                myRef.child("Users").child("Residenza").setValue(residenza);
+                //fine
+
                 progressBar.setVisibility(View.VISIBLE);
 
                 auth.createUserWithEmailAndPassword(email, password)
@@ -104,10 +121,13 @@ public class SignupActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                    finish();
+                                    //finish();
                                 }
                             }
                         });
+
+
+
 
             }
         });

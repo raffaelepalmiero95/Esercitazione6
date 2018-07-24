@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class GestioneActivity extends AppCompatActivity {
     private Button btnChangePassword, btnRemoveUser,
             changePassword, remove, signOut;
-    private TextView email;
+    public TextView email;
 
     private EditText oldEmail, password, newPassword;
     private ProgressBar progressBar;
@@ -175,7 +175,7 @@ public class GestioneActivity extends AppCompatActivity {
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
-                startActivity(new Intent(GestioneActivity.this, LoginActivity.class));//era login
+                startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
                 finish();
             } else {
                 setDataToView(user);
@@ -183,7 +183,7 @@ public class GestioneActivity extends AppCompatActivity {
         }
     };
 
-//dobbiamo far andare da logout a main activity e non a login
+
     public void signOut() {
         auth.signOut();
         FirebaseAuth.AuthStateListener authListener = new FirebaseAuth.AuthStateListener() {
@@ -192,7 +192,7 @@ public class GestioneActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
               if (user == null)
                 {
-                   //startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
+                   startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
                     finish();
                 }
             }
