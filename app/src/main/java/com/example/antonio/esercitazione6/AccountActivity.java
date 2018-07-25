@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,16 +23,25 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
-public class AccountActivity extends GestioneActivity implements View.OnClickListener{ //gestione al posto di appcompat
+public class AccountActivity extends GestioneActivity implements View.OnClickListener { //gestione al posto di appcompat
 
     private ImageView profile_img;
     private ImageView camera;
@@ -39,6 +49,10 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
     private FirebaseAuth auth;
+
+    //prof
+    //private FirebaseDatabase db = FirebaseDatabase.getInstance();
+
 
 
 
@@ -49,6 +63,10 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
 
 
         auth = FirebaseAuth.getInstance();
+        //aggiunto dal prof
+        //final TextView textEmail = (TextView) findViewById(R.id.email_profilo);
+
+
 
 
 
@@ -65,6 +83,7 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
             camera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
+
 
 
 
@@ -89,6 +108,23 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
         else {
             log.setText("Login");
         }
+
+       /* // Dati utente
+        DatabaseReference ref = db.getReference("Users").child("Email").child("Email"); /
+        ref.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+                 String dbemail = (String)dataSnapshot.getValue();
+                 textEmail.setText(dbemail);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        }); */
+        //aggiunto dal prof fino a qui
     }
 
 

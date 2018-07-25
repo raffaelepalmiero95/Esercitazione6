@@ -100,9 +100,10 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child("Nome").setValue(nome);
-                myRef.child("Users").child("Cognome").setValue(cognome);
-                myRef.child("Users").child("Residenza").setValue(residenza);
+                myRef.child("Users").child("Email").child("Nome").setValue(nome);
+                myRef.child("Users").child("Email").child("Cognome").setValue(cognome);
+                myRef.child("Users").child("Email").child("Residenza").setValue(residenza);
+                myRef.child("Users").child("Email").child("Email").setValue(email);
                 //fine
 
                 progressBar.setVisibility(View.VISIBLE);

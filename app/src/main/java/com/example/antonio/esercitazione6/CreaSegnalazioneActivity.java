@@ -3,6 +3,7 @@ package com.example.antonio.esercitazione6;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,13 +37,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.firebase.client.core.Tag;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -59,7 +68,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //Signup al posto di appcompat
+public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //Gestione al posto di appcompat
 
     private ImageView anteprima;
     private ImageView fotocamera;
@@ -68,8 +77,13 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
     private Button annulla;
     private  Button invio;
     public EditText problema;
-    //prova
-    public int counter=0;
+
+    private ImageView mappa;
+
+    //aggiunta anto
+    // private StorageReference mStorage;
+    //private ProgressDialog mProgess;
+    //****
 
 
     @Override
@@ -79,16 +93,22 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             setContentView(R.layout.activity_crea_segnalazione);
             setUI();
             setUITEXT();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
+
          fotocamera = findViewById(R.id.imageButton2);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
+         problema = findViewById(R.id.text_problema);
+         mappa = findViewById(R.id.imageButton3);
 
-         //inizio
-        problema = findViewById(R.id.text_problema);
-         //fine
+
+
+        //aggiunta Anto
+        //mStorage = FirebaseStorage.getInstance().getReference();
+        //mProgess= new ProgressDialog(this);
+        //****
 
 
         annulla.setOnClickListener(new View.OnClickListener() {
@@ -97,22 +117,58 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
                 Intent torna_alla_home = new Intent(CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(torna_alla_home);
             }});
+
+        mappa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
+                startActivity(vai_alla_mappa);
+            }});
+
         invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 //prova funzionante per scrivere il problema
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child(problema.getText().toString()).child("Problema").setValue(problema.getText().toString());
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
+
 //al posto di "utente" va problema.getText().toString() ... al posto di utente dovremmo mettere la mail di chi segnala
+
                 //fine
 
-                Intent ricarica_pagina_segnalazione = new Intent (CreaSegnalazioneActivity.this,MapActivity.class);
-                startActivity(ricarica_pagina_segnalazione);
+
+
+
+
+                //aggiunta antonio 24 bis
+                /*mProgess.setMessage("Uploading Image...");
+                mProgess.show();
+                Uri uri = data.getData();
+
+                StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
+                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
+                {
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        mProgess.dismiss();
+                        Toast.makeText(CreaSegnalazioneActivity.this,"Uploading Finito...",Toast.LENGTH_LONG).show();
+                    }
+
+                });*/
+                //****bis
+
+                //aggiunta antonio 24
+               // Intent carica_foto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //startActivityForResult(carica_foto,CAMERA_REQUEST_CODE);
+                //sto provando ad inviare la foto che ho appena fatto vedere ****
+
+
+
+                Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
+                startActivity(fine_segnalazione);
             }});
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -122,6 +178,37 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
 
 
     }
+
+
+    //Aggiunta Antonio ****
+  /*  protected void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
+
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+
+            mProgess.setMessage("Uploading Immagine...");
+            mProgess.show();
+            Uri uri = data.getData();
+
+            StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    mProgess.dismiss();
+                    Toast.makeText(CreaSegnalazioneActivity.this, "Uploading Finito...", Toast.LENGTH_LONG).show();
+                }
+
+            });
+
+        }
+        }
+*/
+    //sto provando ad inviare la foto che ho appena fatto
 
 
 
@@ -217,6 +304,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         }
     }
 
+    //prima delle modifiche 24 luglio
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

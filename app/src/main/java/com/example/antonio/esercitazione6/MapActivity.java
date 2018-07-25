@@ -118,7 +118,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
                 //fine
 
 
-                startActivity(new Intent(MapActivity.this,MainActivity.class));
+                startActivity(new Intent(MapActivity.this,CreaSegnalazioneActivity.class));
                 finish();
 
             }
