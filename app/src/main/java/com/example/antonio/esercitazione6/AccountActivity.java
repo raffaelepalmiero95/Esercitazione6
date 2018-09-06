@@ -116,12 +116,9 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
                  String dbemail = (String)dataSnapshot.getValue();
                  textEmail.setText(dbemail);
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         }); */
         //aggiunto dal prof fino a qui

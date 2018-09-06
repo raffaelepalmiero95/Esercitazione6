@@ -77,14 +77,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
     private Button annulla;
     private  Button invio;
     public EditText problema;
-
     private ImageView mappa;
-
-    //aggiunta anto
-    // private StorageReference mStorage;
-    //private ProgressDialog mProgess;
-    //****
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +97,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
          mappa = findViewById(R.id.imageButton3);
 
 
-
-        //aggiunta Anto
-        //mStorage = FirebaseStorage.getInstance().getReference();
-        //mProgess= new ProgressDialog(this);
-        //****
-
-
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,44 +114,11 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //prova funzionante per scrivere il problema
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
-
-//al posto di "utente" va problema.getText().toString() ... al posto di utente dovremmo mettere la mail di chi segnala
-
-                //fine
-
-
-
-
-
-                //aggiunta antonio 24 bis
-                /*mProgess.setMessage("Uploading Image...");
-                mProgess.show();
-                Uri uri = data.getData();
-
-                StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
-                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>()
-                {
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        mProgess.dismiss();
-                        Toast.makeText(CreaSegnalazioneActivity.this,"Uploading Finito...",Toast.LENGTH_LONG).show();
-                    }
-
-                });*/
-                //****bis
-
-                //aggiunta antonio 24
-               // Intent carica_foto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //startActivityForResult(carica_foto,CAMERA_REQUEST_CODE);
-                //sto provando ad inviare la foto che ho appena fatto vedere ****
-
-
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
@@ -178,39 +131,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
 
 
     }
-
-
-    //Aggiunta Antonio ****
-  /*  protected void onActivityResult(int requestCode,int resultCode,Intent data)
-    {
-        super.onActivityResult(requestCode,resultCode,data);
-
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-
-            mProgess.setMessage("Uploading Immagine...");
-            mProgess.show();
-            Uri uri = data.getData();
-
-            StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    mProgess.dismiss();
-                    Toast.makeText(CreaSegnalazioneActivity.this, "Uploading Finito...", Toast.LENGTH_LONG).show();
-                }
-
-            });
-
-        }
-        }
-*/
-    //sto provando ad inviare la foto che ho appena fatto
-
-
 
     private void setUITEXT() {
     }

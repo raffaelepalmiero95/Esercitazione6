@@ -66,15 +66,11 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
             @Override
             public void onClick(View v) {
 
-
-
-                //aggiunta anto
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String nome = inputNome.getText().toString().trim();
                 String cognome = inputCognome.getText().toString().trim();
                 String residenza = inputResidenza.getText().toString().trim();
-                //fine
 
 
                 if (TextUtils.isEmpty(email)) {
@@ -92,12 +88,7 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                     return;
                 }
 
-
-                //aggiunto da me
-
-                //al posto di users dobbiamo cercare di mettere una mail di chi è loggato
-
-
+                // salvataggio dei dati nel database non funzionante
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 myRef.child("Users").child("Email").child("Nome").setValue(nome);

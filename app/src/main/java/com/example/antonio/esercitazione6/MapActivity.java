@@ -46,10 +46,6 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
     private Button ok;
 
 
-
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
@@ -91,39 +87,24 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
-
-        //inizio
         ok = (Button) findViewById(R.id.btn_ok);
-        //fine
 
-        //inizio
+
        ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-
-
-                //deve salvare la posizione come lat e long nel database
-                //sostituisce ogni volta il vecchio utente e non aggiunge uno nuovo
-                //non prende descrizione da problema in creasegnalazione
-
-                //scrittura sul db
-
-
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-                //posizione salvata sul db da aggiungere
-
-                //fine
 
 
+                //non dobbiamo fare start activity ma riprendere l'activity precedente
                 startActivity(new Intent(MapActivity.this,CreaSegnalazioneActivity.class));
                 finish();
-
             }
         });
-        //fine
+
 
         getLocationPermission();
     }
@@ -141,7 +122,6 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
                     geoLocate();
                 }
-
                 return false;
             }
         });
