@@ -41,14 +41,14 @@ import java.util.List;
 
 
 
-public class MapActivity extends SignupActivity implements OnMapReadyCallback { // Messo SignUp al posto di creasegnalazione
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback { //app compact al posto di signup 6 settembre
 
     private Button ok;
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
 
@@ -82,12 +82,19 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
         ok = (Button) findViewById(R.id.btn_ok);
+
+
+        //prova 6 settembre
+        Intent vai_alla_mappa = getIntent();
+        final String descrizione_problema = vai_alla_mappa.getStringExtra("Descrizione problema");
+        //
 
 
        ok.setOnClickListener(new View.OnClickListener()
@@ -98,10 +105,20 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
 
-
-                //non dobbiamo fare start activity ma riprendere l'activity precedente
-                startActivity(new Intent(MapActivity.this,CreaSegnalazioneActivity.class));
+                //prova 6 settembre
+                String a = descrizione_problema;
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Descrizione problema", a);
+                setResult(RESULT_OK, resultIntent);
                 finish();
+                //
+
+
+                //commentato il 6 settembre
+
+                //startActivity(new Intent(MapActivity.this,CreaSegnalazioneActivity.class));
+                //finish();
+                //fine commenti
             }
         });
 
@@ -144,7 +161,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
             Address address = list.get(0);
 
             Log.d(TAG, "trovata una posizione: " + address.toString());
-            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+
 
             moveCamera(new LatLng(address.getLatitude(),address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));

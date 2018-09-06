@@ -68,7 +68,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //Gestione al posto di appcompat
+public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //mapactivity al posto di appcompact 6 settembre
 
     private ImageView anteprima;
     private ImageView fotocamera;
@@ -108,7 +108,14 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             @Override
             public void onClick(View view) {
                 Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
-                startActivity(vai_alla_mappa);
+
+                //prova 6 settembre
+                vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
+                startActivityForResult(vai_alla_mappa,1);
+                //
+
+                //startActivity(vai_alla_mappa); commentato il 6 settembre
+
             }});
 
         invio.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +231,32 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         }
     }
 
-    //prima delle modifiche 24 luglio
+    //modifico questa il 6 settembre
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String descrizione_problema = data.getStringExtra("Descrizione problema");
+                problema.setText(descrizione_problema);
+            }
+        }
+
+
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == SELECT_FILE)
+                    onSelectFromGalleryResult(data);
+                else if (requestCode == REQUEST_CAMERA)
+                    onCaptureImageResult(data);
+            }
+        }
+    }
+    //fine
+
+/* camera funzionante la commento il 6 settembre per provare a salvare i dati
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -234,7 +266,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
-    }
+    } */
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
