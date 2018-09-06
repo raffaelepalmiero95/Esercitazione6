@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDNPEUZMeEVrNvXR9UHVYghC8mTjIaeLPI" />
@@ -28,28 +29,29 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreaSegnalazioneActivity" />
-        <activity android:name=".BachecaActivity" />
-        <activity android:name=".AccountActivity" />
-        <activity android:name=".MapActivity" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".CreaSegnalazioneActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".BachecaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".AccountActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".MapActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".HomeActivity" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".GestioneActivity" />
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ResetPasswordActivity" android:screenOrientation="portrait" />
+        <activity android:name=".SignupActivity" android:screenOrientation="portrait" />
+        <activity android:name=".GestioneActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>
