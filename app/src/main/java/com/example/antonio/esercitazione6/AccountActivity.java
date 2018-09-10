@@ -41,7 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
-public class AccountActivity extends GestioneActivity implements View.OnClickListener { //gestione al posto di appcompat
+public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView profile_img;
     private ImageView camera;
@@ -63,13 +63,9 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
 
 
         auth = FirebaseAuth.getInstance();
+
         //aggiunto dal prof
         //final TextView textEmail = (TextView) findViewById(R.id.email_profilo);
-
-
-
-
-
 
         try {
             setContentView(R.layout.activity_account);
@@ -83,11 +79,6 @@ public class AccountActivity extends GestioneActivity implements View.OnClickLis
             camera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
-
-
-
-
-
 
          log = findViewById(R.id.btn_log);
 

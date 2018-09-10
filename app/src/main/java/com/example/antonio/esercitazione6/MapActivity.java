@@ -91,10 +91,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ok = (Button) findViewById(R.id.btn_ok);
 
 
-        //prova 6 settembre
+
         Intent vai_alla_mappa = getIntent();
         final String descrizione_problema = vai_alla_mappa.getStringExtra("Descrizione problema");
-        //
+
 
 
        ok.setOnClickListener(new View.OnClickListener()
@@ -105,20 +105,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
 
-                //prova 6 settembre
                 String a = descrizione_problema;
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("Descrizione problema", a);
                 setResult(RESULT_OK, resultIntent);
                 finish();
-                //
 
-
-                //commentato il 6 settembre
-
-                //startActivity(new Intent(MapActivity.this,CreaSegnalazioneActivity.class));
-                //finish();
-                //fine commenti
             }
         });
 

@@ -1,7 +1,6 @@
 package com.example.antonio.esercitazione6;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,61 +11,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.Manifest;
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.firebase.client.core.Tag;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //mapactivity al posto di appcompact 6 settembre
 
@@ -78,6 +45,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     private  Button invio;
     public EditText problema;
     private ImageView mappa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +65,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
          mappa = findViewById(R.id.imageButton3);
 
 
+
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,20 +77,13 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
-
-                //prova 6 settembre
                 vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
                 startActivityForResult(vai_alla_mappa,1);
-                //
-
-                //startActivity(vai_alla_mappa); commentato il 6 settembre
-
             }});
 
-        invio.setOnClickListener(new View.OnClickListener() {
+           invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -135,9 +97,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             fotocamera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
-
-
     }
+
+
+
+
 
     private void setUITEXT() {
     }
@@ -231,7 +195,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
-    //modifico questa il 6 settembre
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -254,19 +219,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             }
         }
     }
-    //fine
 
-/* camera funzionante la commento il 6 settembre per provare a salvare i dati
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-    } */
+
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");

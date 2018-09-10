@@ -16,16 +16,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegnalazione al posto di appcompatactivity
     public EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
-
-
 
 
     @Override
@@ -41,12 +41,9 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
-
-        //aggiunto da anto
         inputNome = (EditText) findViewById(R.id.registra_nome);
         inputCognome = (EditText) findViewById(R.id.registra_cognome);
         inputResidenza = (EditText) findViewById(R.id.registra_residenza);
-        //fine
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,40 +63,24 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
             @Override
             public void onClick(View v) {
 
-                String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-                String nome = inputNome.getText().toString().trim();
-                String cognome = inputCognome.getText().toString().trim();
-                String residenza = inputResidenza.getText().toString().trim();
-
-
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(inputEmail.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Inserisci l'indirizzo Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(inputPassword.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (password.length() < 6) {
+                if (inputPassword.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password troppo corta, inserisci almeno 6 caratteri", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // salvataggio dei dati nel database non funzionante
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
-                myRef.child("Users").child("Email").child("Nome").setValue(nome);
-                myRef.child("Users").child("Email").child("Cognome").setValue(cognome);
-                myRef.child("Users").child("Email").child("Residenza").setValue(residenza);
-                myRef.child("Users").child("Email").child("Email").setValue(email);
-                //fine
-
                 progressBar.setVisibility(View.VISIBLE);
 
-                auth.createUserWithEmailAndPassword(email, password)
+                auth.createUserWithEmailAndPassword(inputEmail.getText().toString(), inputPassword.getText().toString())
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -112,12 +93,20 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                                     Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference myRef = database.getReference();
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Nome").push().setValue(inputNome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Cognome").push().setValue(inputCognome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Email").push().setValue(inputEmail.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Residenza").push().setValue(inputResidenza.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").push().setValue(inputPassword.getText().toString());
+
                                     startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                    //finish();
+                                    finish();
                                 }
                             }
                         });
-
 
 
 
@@ -131,5 +120,4 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
         progressBar.setVisibility(View.GONE);
     }
 }
-
 
