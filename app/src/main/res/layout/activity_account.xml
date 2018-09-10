@@ -16,6 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/nome"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/cognome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/cognome"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/residenza"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nome" />
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/residenza"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cognome" />
@@ -48,6 +51,7 @@
         android:layout_marginBottom="32dp"
         android:layout_marginStart="16dp"
         android:text="@string/e_mail"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/residenza" />
