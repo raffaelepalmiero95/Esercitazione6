@@ -96,13 +96,14 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Nome").push().setValue(inputNome.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Cognome").push().setValue(inputCognome.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Email").push().setValue(inputEmail.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Residenza").push().setValue(inputResidenza.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").push().setValue(inputPassword.getText().toString());
 
-                                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                                    startActivity(new Intent(SignupActivity.this, MainActivity.class)); //al posto di main c'era login
                                     finish();
                                 }
                             }
