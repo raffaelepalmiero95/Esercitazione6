@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //mapactivity al posto di appcompact 6 settembre
+public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //appcompat al posto di mapactivity 14 settembre
 
     private ImageView anteprima;
     private ImageView fotocamera;
@@ -88,7 +89,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 DatabaseReference myRef = database.getReference();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
-
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
             }});

@@ -32,6 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -89,13 +91,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.input_search);
         ok = (Button) findViewById(R.id.btn_ok);
-
-
-
         Intent vai_alla_mappa = getIntent();
         final String descrizione_problema = vai_alla_mappa.getStringExtra("Descrizione problema");
-
-
 
        ok.setOnClickListener(new View.OnClickListener()
         {
@@ -104,17 +101,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
-
                 String a = descrizione_problema;
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("Descrizione problema", a);
                 setResult(RESULT_OK, resultIntent);
                 finish();
-
             }
         });
-
-
         getLocationPermission();
     }
 
@@ -136,6 +129,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+
     private void geoLocate(){
         Log.d(TAG, "Geolocalizzazione");
 
@@ -154,32 +148,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Log.d(TAG, "trovata una posizione: " + address.toString());
 
-
             moveCamera(new LatLng(address.getLatitude(),address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
-
         }
     }
 
     private void getDeviceLocation(){
-        Log.d(TAG, "posizione attuale");
-
+        Log.d(TAG, "Posizione Attuale");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         try{
             if(mLocationPermissionsGranted){
-
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
-                            Log.d(TAG, "posizione trovata");
+                            Log.d(TAG, "Posizione Trovata");
                             Location currentLocation = (Location) task.getResult();
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM,
-                                    "posizione attuale");
+                                    "Posizione Attuale");
 
                         }else{
                             Log.d(TAG, "la posizione attuale è nulla");
@@ -188,19 +177,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
             }
+
         }catch (SecurityException e){
             Log.e(TAG, "SecurityException: " + e.getMessage() );
         }
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title){
-        Log.d(TAG, "muovi visuale: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+        Log.d(TAG, "Questa è la tua posizione: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title(title);
         mMap.addMarker(options);
-
     }
 
     private void initMap(){
@@ -255,8 +244,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
-
-
 }
 
 

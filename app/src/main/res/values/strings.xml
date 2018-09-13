@@ -1,6 +1,6 @@
 <resources>
     <string name="google_maps_API_key">AIzaSyDNPEUZMeEVrNvXR9UHVYghC8mTjIaeLPI</string>
-    <string name="app_name">Esercitazione6</string>
+    <string name="app_name">InComune</string>
     <string name="torna_alla_home">Le mie segnalazioni</string>
     <string name="bacheca">Bacheca</string>
     <string name="segnala">Segnala</string>
