@@ -107,6 +107,9 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         final DatabaseReference mRef = database.getReference("Nome"); //non dobbiamo usare nome qui ma il percorso che ci serve anche con uid
+
+        //final DatabaseReference mRef = database.getReference("Users" + user.getUid() + "Dati Utente");
+
         mRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
