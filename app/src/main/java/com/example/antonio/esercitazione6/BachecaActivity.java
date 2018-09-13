@@ -23,35 +23,25 @@ package com.example.antonio.esercitazione6;
         import java.util.ArrayList;
 
 public class BachecaActivity extends AppCompatActivity {
-
-    //13 settembre
     private ListView lista;
-    private ArrayList <String> musername = new ArrayList<>();
-    //
+    private ArrayList <String> segnalazioni = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacheca);
-
-        //13 settembre
         lista = findViewById(R.id.lista_segnalazioni);
-
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, musername);
-
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, segnalazioni);
         lista.setAdapter(arrayAdapter);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni");
-
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String value = dataSnapshot.getValue(String.class);
-                musername.add(value);
+                segnalazioni.add(value);
                 arrayAdapter.notifyDataSetChanged();
             }
             @Override
@@ -68,9 +58,6 @@ public class BachecaActivity extends AppCompatActivity {
             }
         });
 
-
-        //
-
         Button TornaHome = findViewById(R.id.button_torna_alla_home2);
         TornaHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +65,5 @@ public class BachecaActivity extends AppCompatActivity {
                 Intent button_torna_alla_home2 = new Intent(BachecaActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
             }});
-
-
     }
 }

@@ -30,12 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bacheca;
     private Button segnala;
     private FirebaseAuth auth;
-    //11 settembre
     private TextView mostra_evento;
-    //
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }});
 
-        //11 settembre mostra evento funzionante
         mostra_evento = findViewById(R.id.evento);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mRef = database.getReference("Evento");
@@ -94,9 +88,5 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        //
-
     }
-
-
 }

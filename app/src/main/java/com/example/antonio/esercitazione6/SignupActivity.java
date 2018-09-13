@@ -20,21 +20,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
 public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegnalazione al posto di appcompatactivity
     public EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
         auth = FirebaseAuth.getInstance();
-
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
         inputEmail = (EditText) findViewById(R.id.email);
@@ -96,21 +92,17 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    //se metto il .push mi crea un ramo con nome e mette un codice ID, senza .push è più ordinato
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Nome").setValue(inputNome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Cognome").setValue(inputCognome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Email").setValue(inputEmail.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Residenza").setValue(inputResidenza.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").setValue(inputPassword.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Nome").setValue("Nome : " + inputNome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Cognome").setValue("Cognome : " + inputCognome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Email").setValue("Email : " + inputEmail.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Residenza").setValue("Residenza : " + inputResidenza.getText().toString());
+                                  //myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").setValue(inputPassword.getText().toString());
 
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class)); //al posto di main c'era login
+                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }
                             }
                         });
-
-
-
             }
         });
     }

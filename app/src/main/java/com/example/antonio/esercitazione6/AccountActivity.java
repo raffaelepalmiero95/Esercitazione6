@@ -11,15 +11,18 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ import com.firebase.client.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,6 +43,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,24 +54,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
     private FirebaseAuth auth;
-    private TextView nomeprofilo;
-    private TextView cognomeprofilo;
-    private TextView emailprofilo;
-    private TextView residenzaprofilo;
-
+    private ListView listadati;
+    private ArrayList<String> dati = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         auth = FirebaseAuth.getInstance();
-
-        //dobbiamo portarli dopo il try catch
-        cognomeprofilo = findViewById(R.id.cognome_profilo);
-        residenzaprofilo = findViewById(R.id.residenza_profilo);
-        emailprofilo = findViewById(R.id.email_profilo);
-        //
-
         try {
             setContentView(R.layout.activity_account);
             setUI();
@@ -81,7 +75,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
 
          log = findViewById(R.id.btn_log);
-
          log.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
@@ -89,43 +82,40 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                  startActivity(log_account);
              }
          });
-
         if (auth.getCurrentUser() != null) {
             log.setText("Gestione Account");
+            listadati = findViewById(R.id.lista_dati);
+            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dati);
+            listadati.setAdapter(arrayAdapter);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati Utente");
+            mRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
+                    String value = dataSnapshot.getValue(String.class);
+                    dati.add(value);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+                @Override
+                public void onChildChanged(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
+                }
+                @Override
+                public void onChildRemoved(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+                }
+                @Override
+                public void onChildMoved(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
         }
         else {
             log.setText("Login");
         }
 
-        //prova richiesta dati dal database 10 settembre
-
-        //con un nome solo funziona, con più nomi non funziona
-
-        nomeprofilo = findViewById(R.id.nome_profilo);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        final DatabaseReference mRef = database.getReference("Nome"); //non dobbiamo usare nome qui ma il percorso che ci serve anche con uid
-
-        //final DatabaseReference mRef = database.getReference("Users" + user.getUid() + "Dati Utente");
-
-        mRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
-             String nome = String.valueOf(dataSnapshot.getValue());
-             nomeprofilo.setText(nome);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        //
-
     }
-
-
 
     private void setUITEXT() {
     }
