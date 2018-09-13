@@ -57,4 +57,7 @@
     <string name="text_comune">Comune di residenza</string>
     <string name="btn_registrazione">Registrazione</string>
     <string name="text_problema">Descrivi brevemente il problema</string>
+    <string name="Evento" />
+    <string name="Evento1">Qui compariranno i nuovi eventi!</string>
+    <string name="Evento2">Qui appariranno i nuovi eventi!</string>
 </resources>
