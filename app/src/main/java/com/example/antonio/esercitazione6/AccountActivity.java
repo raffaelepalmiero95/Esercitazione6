@@ -83,10 +83,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
              }
          });
         if (auth.getCurrentUser() != null) {
+
             log.setText("Gestione Account");
             listadati = findViewById(R.id.lista_dati);
+
             final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dati);
             listadati.setAdapter(arrayAdapter);
+
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati Utente");

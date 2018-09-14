@@ -38,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,8 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback { //app compact al posto di signup 6 settembre
 
     private Button ok;
+    public double Posizione[];
+    Intent resultIntent = new Intent();
 
 
     @Override
@@ -99,10 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v)
             {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
                 String a = descrizione_problema;
-                Intent resultIntent = new Intent();
                 resultIntent.putExtra("Descrizione problema", a);
                 setResult(RESULT_OK, resultIntent);
                 finish();
@@ -110,7 +110,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
         getLocationPermission();
     }
-
 
     private void init(){
         Log.d(TAG, "inizializza");
@@ -183,14 +182,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom, String title){
+    private double[] moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "Questa è la tua posizione: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title(title);
         mMap.addMarker(options);
+        Posizione = new double[]{latLng.latitude, latLng.longitude};
+        resultIntent.putExtra("Posizione", Posizione);
+        setResult(RESULT_OK, resultIntent);
+        return Posizione;
     }
+
 
     private void initMap(){
         Log.d(TAG, "inizializzo mappa");

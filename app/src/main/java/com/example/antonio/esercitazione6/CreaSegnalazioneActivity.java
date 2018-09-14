@@ -36,7 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class CreaSegnalazioneActivity extends AppCompatActivity implements View.OnClickListener{ //appcompat al posto di mapactivity 14 settembre
+public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //map al posto di appcomp 14 settembre
 
     private ImageView anteprima;
     private ImageView fotocamera;
@@ -46,6 +46,8 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
     private  Button invio;
     public EditText problema;
     private ImageView mappa;
+    public double posizione[];
+    private boolean click = true;
 
 
     @Override
@@ -77,6 +79,7 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
         mappa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                click=false;
                 Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
                 vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
                 startActivityForResult(vai_alla_mappa,1);
@@ -88,7 +91,18 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
+
+                //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
+               /*if (click){
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+               }
+               else  {
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+               }*/
+
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
             }});
@@ -98,9 +112,6 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
     }
-
-
-
 
 
     private void setUITEXT() {
@@ -206,6 +217,8 @@ public class CreaSegnalazioneActivity extends AppCompatActivity implements View.
             if (resultCode == RESULT_OK) {
                 String descrizione_problema = data.getStringExtra("Descrizione problema");
                 problema.setText(descrizione_problema);
+                posizione = data.getDoubleArrayExtra("Posizione");
+
             }
         }
 
