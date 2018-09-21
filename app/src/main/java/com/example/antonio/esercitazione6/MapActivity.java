@@ -204,7 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void getLocationPermission(){
-        Log.d(TAG, "ho i permessi di localizzazione");
+        Log.d(TAG, "Ho i permessi di localizzazione");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
@@ -228,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "");
+        Log.d(TAG, "Permessi");
         mLocationPermissionsGranted = false;
 
         switch(requestCode){

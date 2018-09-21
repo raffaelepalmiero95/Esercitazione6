@@ -3,6 +3,7 @@ package com.example.antonio.esercitazione6;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,22 +11,29 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -35,13 +43,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
+
 
 public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //map al posto di appcomp 14 settembre
 
     private ImageView anteprima;
     private ImageView fotocamera;
     private String userChoosenTask;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 3;
     private Button annulla;
     private  Button invio;
     public EditText problema;
@@ -49,9 +59,17 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     public double posizione[];
     private boolean click = true;
 
+    //21 settembre
+    private Uri filePath;
+    private StorageReference storageReference;
+    //
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_crea_segnalazione);
@@ -66,6 +84,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
          invio = findViewById(R.id.button_invia);
          problema = findViewById(R.id.text_problema);
          mappa = findViewById(R.id.imageButton3);
+
+
 
 
 
@@ -94,6 +114,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
 
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
+                //invece del push provare con UUID
 
                 //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
                /*if (click){
@@ -103,15 +124,74 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
                }*/
 
+                //21 settembre
+                //uploadFile();
+                //
+
+
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
             }});
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+
             fotocamera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
     }
+
+    /*
+    //21 settembre
+    private void uploadFile() {
+
+        if (filePath != null) {
+
+
+            storageReference = FirebaseStorage.getInstance().getReference();
+
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+
+            StorageReference riversRef = storageReference.child("images/pic.jpg");
+            riversRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            progressDialog.dismiss();
+
+
+                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+
+                            progressDialog.dismiss();
+
+
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+
+    }
+    //
+*/
+
 
 
     private void setUITEXT() {
@@ -184,6 +264,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         startActivityForResult(Intent.createChooser(intent, "Seleziona file"),SELECT_FILE);
     }
 
+
+
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
@@ -218,11 +300,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 String descrizione_problema = data.getStringExtra("Descrizione problema");
                 problema.setText(descrizione_problema);
                 posizione = data.getDoubleArrayExtra("Posizione");
-
             }
         }
 
-
+        /* semi funzionante
+// non mette l'immagine dalla galleria alla view anteprima
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == SELECT_FILE)
@@ -231,6 +313,35 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                     onCaptureImageResult(data);
             }
         }
+*/
+
+        //funzionante sembra
+        //21 settembre
+        if (requestCode == 0) {
+                if (requestCode == REQUEST_CAMERA)
+                    onCaptureImageResult(data);
+        }
+
+        if (requestCode == 3) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+        }
+        //
+
+/*
+        //21 settembre
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                anteprima.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //
+*/
     }
 
 
@@ -256,9 +367,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         anteprima.setImageBitmap(thumbnail);
     }
 
+
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
+        Bitmap bm = null;
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());

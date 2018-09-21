@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextView mostra_evento;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
