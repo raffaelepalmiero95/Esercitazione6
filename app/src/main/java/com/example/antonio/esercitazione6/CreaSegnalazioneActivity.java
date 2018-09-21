@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 
@@ -62,6 +65,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     //21 settembre
     private Uri filePath;
     private StorageReference storageReference;
+    private StorageTask uploadTask;
     //
 
 
@@ -109,23 +113,39 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference();
+                final DatabaseReference myRef = database.getReference();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-                myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
+                //prova 21 settembre
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.randomUUID().toString()).setValue(problema.getText().toString());
+                //
+
+
+                //myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
                 //invece del push provare con UUID
 
                 //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
-               /*if (click){
+                /*
+               if (click){
                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
                }
                else  {
                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
-               }*/
+               }
+               */
+
+               //non funzionante
+                //myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.fromString(problema.getText().toString()).toString()).child("Posizione").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+               // myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+                //
 
                 //21 settembre
-                //uploadFile();
+                uploadFile();
+
+
+
+
                 //
 
 
@@ -141,7 +161,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
-    /*
+
     //21 settembre
     private void uploadFile() {
 
@@ -151,10 +171,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             storageReference = FirebaseStorage.getInstance().getReference();
 
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading");
+            progressDialog.setTitle("Caricamento");
             progressDialog.show();
 
-            StorageReference riversRef = storageReference.child("images/pic.jpg");
+            StorageReference riversRef = storageReference.child("Immagini" + UUID.randomUUID().toString());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -163,7 +183,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                             progressDialog.dismiss();
 
 
-                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "File caricato con successo ", Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -183,14 +203,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
 
-                            progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                            progressDialog.setMessage("Caricamento " + ((int) progress) + "%...");
                         }
                     });
         }
 
     }
     //
-*/
+
 
 
 
@@ -315,22 +335,23 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
 */
 
+
         //funzionante sembra
         //21 settembre
         if (requestCode == 0) {
                 if (requestCode == REQUEST_CAMERA)
                     onCaptureImageResult(data);
         }
-
+/*
         if (requestCode == 3) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
         }
         //
+*/
 
-/*
         //21 settembre
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -340,8 +361,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 e.printStackTrace();
             }
         }
+
         //
-*/
+
     }
 
 
@@ -367,7 +389,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         anteprima.setImageBitmap(thumbnail);
     }
 
-
+/*
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
@@ -380,6 +402,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
         anteprima.setImageBitmap(bm);
     }
-
+*/
 
 }
