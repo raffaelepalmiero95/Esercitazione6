@@ -61,37 +61,25 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     private ImageView mappa;
     public double posizione[];
     private boolean click = true;
-
-    //21 settembre
     private Uri filePath;
     private StorageReference storageReference;
-    private StorageTask uploadTask;
-    //
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        try {
-            setContentView(R.layout.activity_crea_segnalazione);
-            setUI();
-            setUITEXT();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-
-         fotocamera = findViewById(R.id.imageButton2);
+        setContentView(R.layout.activity_crea_segnalazione);
+        anteprima = (ImageView)findViewById(R.id.image_anteprima);
+        fotocamera = (ImageView)findViewById(R.id.imageButton2);
+        fotocamera.setOnClickListener(this);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
          problema = findViewById(R.id.text_problema);
          mappa = findViewById(R.id.imageButton3);
-
-
-
-
 
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,9 +100,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
            invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                final DatabaseReference myRef = database.getReference();
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //commento il 27 settembre e li sposto sopra
+                //FirebaseDatabase database = FirebaseDatabase.getInstance();
+                //final DatabaseReference myRef = database.getReference();
+                //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
                 //prova 21 settembre
@@ -122,8 +111,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 //
 
 
+                //come è sempre stato
                 //myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
-                //invece del push provare con UUID
+                //invece del push provo con UUID
 
                 //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
                 /*
@@ -140,13 +130,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                // myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
                 //
 
-                //21 settembre
+
+
                 uploadFile();
 
-
-
-
-                //
 
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
@@ -154,73 +141,55 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             }});
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-
             fotocamera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
     }
 
 
-    //21 settembre
-    private void uploadFile() {
 
+    private void uploadFile() {
         if (filePath != null) {
 
-
             storageReference = FirebaseStorage.getInstance().getReference();
-
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Caricamento");
             progressDialog.show();
-
-            StorageReference riversRef = storageReference.child("Immagini" + UUID.randomUUID().toString());
+            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/" + UUID.randomUUID().toString());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
                             progressDialog.dismiss();
-
-
                             Toast.makeText(getApplicationContext(), "File caricato con successo ", Toast.LENGTH_LONG).show();
+
+                            /* funziona ma bisogna metterlo sotto il ramo di segnalazioni con questo prendiamo l'url della foto caricata
+                            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Uri downloadUri = uri;
+                                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.randomUUID().toString()).child("URL").setValue(downloadUri.toString());
+                                }
+                            });
+                            */
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-
                             progressDialog.dismiss();
-
-
                             Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
                             double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-
                             progressDialog.setMessage("Caricamento " + ((int) progress) + "%...");
                         }
                     });
         }
-
-    }
-    //
-
-
-
-
-    private void setUITEXT() {
-    }
-
-    private void setUI() {
-        anteprima = (ImageView)findViewById(R.id.image_anteprima);
-        fotocamera = (ImageView)findViewById(R.id.imageButton2);
-        fotocamera.setOnClickListener(this);
     }
 
 
@@ -323,34 +292,16 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             }
         }
 
-        /* semi funzionante
-// non mette l'immagine dalla galleria alla view anteprima
-        if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == SELECT_FILE)
-                    onSelectFromGalleryResult(data);
-                else if (requestCode == REQUEST_CAMERA)
-                    onCaptureImageResult(data);
-            }
-        }
-*/
 
-
-        //funzionante sembra
-        //21 settembre
+        //prende le foto dalla fotocamera ma non le carica
         if (requestCode == 0) {
                 if (requestCode == REQUEST_CAMERA)
                     onCaptureImageResult(data);
         }
-/*
-        if (requestCode == 3) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-        }
-        //
-*/
 
-        //21 settembre
+
+
+
         if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
@@ -362,7 +313,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             }
         }
 
-        //
+
+
 
     }
 
@@ -389,7 +341,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         anteprima.setImageBitmap(thumbnail);
     }
 
-/*
+
+
+/* se funziona il caricamento immagini questo non serve più per la galleria
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
