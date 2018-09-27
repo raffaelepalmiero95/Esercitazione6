@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
@@ -301,7 +303,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
 
 
-
         if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
@@ -312,11 +313,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 e.printStackTrace();
             }
         }
-
-
-
-
     }
+
+
 
 
 
@@ -341,21 +340,5 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         anteprima.setImageBitmap(thumbnail);
     }
 
-
-
-/* se funziona il caricamento immagini questo non serve più per la galleria
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm = null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        anteprima.setImageBitmap(bm);
-    }
-*/
 
 }

@@ -72,15 +72,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private ListView listadati;
     private ArrayList<String> dati = new ArrayList<>();
 
-    /*
-    //23 settembre
-    StorageReference storageReference;
-    DatabaseReference mRef;
-    private Uri imageUri;
-    private StorageTask uploadTask;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //commentato sotto e aggiunto qui
-    //
-*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +141,14 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         else {
             log.setText("Login");
         }
+
+        Button home = findViewById(R.id.torna_home);
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent button_torna_alla_home2 = new Intent(AccountActivity.this,MainActivity.class);
+                startActivity(button_torna_alla_home2);
+            }});
 
 
     }
