@@ -63,6 +63,7 @@ import java.util.Map;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     private ImageView profile_img;
     private ImageView camera;
     private String userChoosenTask;

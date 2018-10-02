@@ -44,7 +44,7 @@ import java.util.List;
 
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback { //app compact al posto di signup 6 settembre
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Button ok;
     public double Posizione[];
@@ -53,7 +53,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //Toast.makeText(this, "Verifica che la posizione sia corretta", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
 

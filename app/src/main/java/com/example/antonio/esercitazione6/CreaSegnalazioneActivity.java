@@ -52,7 +52,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 
-public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{ //map al posto di appcomp 14 settembre
+public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{
 
     private ImageView anteprima;
     private ImageView fotocamera;
@@ -70,8 +70,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     final DatabaseReference myRef = database.getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //prova 2 ottobre
-    String uuid = UUID.randomUUID().toString();
+    public String uuid = UUID.randomUUID().toString();
     //
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +106,12 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
 
-
-              myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione Problema").setValue(problema.getText().toString());
-
+                //prova 2 ottobre con uuid
+               myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione Problema").setValue(problema.getText().toString());
+               //
 
                 //come è sempre stato
                 //myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
-                //invece del push provo con UUID
 
 
                 //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
