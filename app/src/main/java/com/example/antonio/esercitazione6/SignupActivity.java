@@ -92,10 +92,10 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Nome").setValue("Nome : " + inputNome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Cognome").setValue("Cognome : " + inputCognome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Email").setValue("Email : " + inputEmail.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Residenza").setValue("Residenza : " + inputResidenza.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato1").setValue("Nome : " + inputNome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
                                   //myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").setValue(inputPassword.getText().toString());
 
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));

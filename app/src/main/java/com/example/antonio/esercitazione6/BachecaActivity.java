@@ -21,10 +21,12 @@ package com.example.antonio.esercitazione6;
         import com.google.firebase.database.FirebaseDatabase;
 
         import java.util.ArrayList;
+        import java.util.UUID;
 
 public class BachecaActivity extends AppCompatActivity {
     private ListView lista;
     private ArrayList <String> segnalazioni = new ArrayList<>();
+
 
 
     @Override
@@ -36,7 +38,8 @@ public class BachecaActivity extends AppCompatActivity {
         lista.setAdapter(arrayAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni");
+        DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni" +  "/Descrizione Problema" );
+
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

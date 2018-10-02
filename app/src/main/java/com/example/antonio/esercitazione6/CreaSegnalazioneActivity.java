@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -68,8 +69,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
+    //prova 2 ottobre
+    String uuid = UUID.randomUUID().toString();
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,37 +104,36 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
            invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //commento il 27 settembre e li sposto sopra
-                //FirebaseDatabase database = FirebaseDatabase.getInstance();
-                //final DatabaseReference myRef = database.getReference();
-                //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-                //prova 21 settembre
-                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.randomUUID().toString()).setValue(problema.getText().toString());
-                //
+              myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione Problema").setValue(problema.getText().toString());
 
 
                 //come è sempre stato
                 //myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
                 //invece del push provo con UUID
 
+
                 //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
                 /*
                if (click){
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
                }
                else  {
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
                }
                */
 
-               //non funzionante
-                //myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.fromString(problema.getText().toString()).toString()).child("Posizione").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
-               // myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Posizione").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
-                //
 
 
+               //prova 2 ottobre
+               if (click){
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+               }
+               else  {
+                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+               }
+               //
 
                 uploadFile();
 
@@ -174,6 +175,16 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                 }
                             });
                             */
+
+                            //prova 2 ottobre
+                            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Uri downloadUri = uri;
+                                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("URL").setValue(downloadUri.toString());
+                                }
+                            });
+                            //
 
                         }
                     })
