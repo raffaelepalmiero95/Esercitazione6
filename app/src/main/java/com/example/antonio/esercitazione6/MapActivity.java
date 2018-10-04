@@ -45,22 +45,19 @@ import java.util.List;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-
+    //dichiarazione variabili
     private Button ok;
     public double Posizione[];
     Intent resultIntent = new Intent();
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
-
-
+        //richiesta permessi di posizione
         if (mLocationPermissionsGranted)
         {
             getDeviceLocation();
-
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -68,15 +65,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 return;
             }
             mMap.setMyLocationEnabled(true);
+            //questo pulsante mi riporta alla posizione attuale anche se cerco altri luoghi sulla mappa
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
             init();
         }
-
     }
-
+    //dichiarazioni variabili
     private static final String TAG = "Mappa";
-
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -86,7 +82,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +90,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ok = (Button) findViewById(R.id.btn_ok);
         Intent vai_alla_mappa = getIntent();
         final String descrizione_problema = vai_alla_mappa.getStringExtra("Descrizione problema");
-
        ok.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -110,9 +104,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
     }
 
+    //inizializzo la mappa
     private void init(){
         Log.d(TAG, "inizializza");
-
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -127,7 +121,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-
+    //geolocalizzazione
     private void geoLocate(){
         Log.d(TAG, "Geolocalizzazione");
 
@@ -140,17 +134,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }catch (IOException e){
             Log.e(TAG, "geolocalizzazione: " + e.getMessage() );
         }
-
         if(list.size() > 0){
             Address address = list.get(0);
-
             Log.d(TAG, "trovata una posizione: " + address.toString());
-
             moveCamera(new LatLng(address.getLatitude(),address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
         }
     }
 
+    //prendi la posizione attuale del dispositivo
     private void getDeviceLocation(){
         Log.d(TAG, "Posizione Attuale");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -167,7 +159,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM,
                                     "Posizione Attuale");
-
                         }else{
                             Log.d(TAG, "la posizione attuale è nulla");
                             Toast.makeText(MapActivity.this, "impossibile trovare la posizione attuale", Toast.LENGTH_SHORT).show();
@@ -175,12 +166,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 });
             }
-
         }catch (SecurityException e){
             Log.e(TAG, "SecurityException: " + e.getMessage() );
         }
     }
 
+    //salvataggio della posizione ricercata, con zoom verso la zona ricercata
     private double[] moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "Questa è la tua posizione: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -202,6 +193,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapActivity.this);
     }
 
+    //permessi di localizzazione
     private void getLocationPermission(){
         Log.d(TAG, "Ho i permessi di localizzazione");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,

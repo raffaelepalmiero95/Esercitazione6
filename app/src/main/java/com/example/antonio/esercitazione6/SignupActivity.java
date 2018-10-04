@@ -20,7 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegnalazione al posto di appcompatactivity
+public class SignupActivity extends AppCompatActivity {
+    //dichiarazione variabili
     public EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
@@ -30,6 +31,7 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        //riferimento agli id
         auth = FirebaseAuth.getInstance();
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
@@ -40,55 +42,50 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
         inputNome = (EditText) findViewById(R.id.registra_nome);
         inputCognome = (EditText) findViewById(R.id.registra_cognome);
         inputResidenza = (EditText) findViewById(R.id.registra_residenza);
-
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
             }
         });
-
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //se il campo email è vuoto richiede dati
                 if (TextUtils.isEmpty(inputEmail.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Inserisci l'indirizzo Email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //se il campo password è vuoto richiede dati
                 if (TextUtils.isEmpty(inputPassword.getText().toString())) {
                     Toast.makeText(getApplicationContext(), "Inserisci la password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //se la password è minore di 6 caratteri da errore
                 if (inputPassword.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password troppo corta, inserisci almeno 6 caratteri", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 progressBar.setVisibility(View.VISIBLE);
-
+                // crea l'account con successo
                 auth.createUserWithEmailAndPassword(inputEmail.getText().toString(), inputPassword.getText().toString())
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
                                 Toast.makeText(SignupActivity.this, "Account creato con successo " , Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
-
+                                //al momento della registrazione chiede una email valida
                                 if (!task.isSuccessful()) {
-
                                     Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    //se la mail è valida salva questi dati sul database
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -96,8 +93,6 @@ public class SignupActivity extends CreaSegnalazioneActivity { //messo CreaSegna
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
-                                  //myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Password").setValue(inputPassword.getText().toString());
-
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }

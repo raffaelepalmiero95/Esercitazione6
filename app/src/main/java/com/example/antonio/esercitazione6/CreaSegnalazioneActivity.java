@@ -54,6 +54,7 @@ import java.util.UUID;
 
 public class CreaSegnalazioneActivity extends MapActivity implements View.OnClickListener{
 
+    //dichiarazione variabili
     private ImageView anteprima;
     private ImageView fotocamera;
     private String userChoosenTask;
@@ -64,14 +65,17 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     private ImageView mappa;
     public double posizione[];
     private boolean click = true;
-    private Uri filePath;
+    private Uri filePath; //per caricare la foto dalla galleria sullo storage
+
+    //reference di storage e database
     private StorageReference storageReference;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    //prova 2 ottobre
+
+    //codice random per distinguere le segnalazioni
     public String uuid = UUID.randomUUID().toString();
-    //
+
 
 
 
@@ -79,6 +83,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_segnalazione);
+        //riferimenti agli id nel layout
         anteprima = (ImageView)findViewById(R.id.image_anteprima);
         fotocamera = (ImageView)findViewById(R.id.imageButton2);
         fotocamera.setOnClickListener(this);
@@ -97,6 +102,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         mappa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // cliccando su mappa salva la posizione sul db cercata in mappa, se non clicchi su mappa salva la posizione attuale del dispositivo
                 click=false;
                 Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
                 vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
@@ -107,9 +113,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
 
+                //scrittura sul database della segnalazione
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Descrizione Problema").child(uuid).setValue(problema.getText().toString());
 
 
+                //se clicca su mappa salva la posizione della mappa, altrimenti quella attuale
                 if (click){
                     myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
                 }
@@ -117,12 +125,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                     myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
                 }
 
+                //metodo per caricare le foto sul database
                 uploadFile();
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
             }});
 
+           //permessi della fotocamera
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             fotocamera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
@@ -130,7 +140,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     }
 
 
-
+//metodo per caricare la foto dalla galleria
     private void uploadFile() {
         if (filePath != null) {
 
@@ -149,6 +159,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                             riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+                                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
                                     Uri downloadUri = uri;
                                     myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("URL").setValue(downloadUri.toString());
                                 }
@@ -173,7 +184,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
-
+//click del pulsante fotocamera
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -183,7 +194,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
-
+//ciclo di vita dell'app
     @Override
     protected void onResume() {
         super.onResume();
@@ -200,12 +211,12 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         super.onDestroy();
     }
 
-
+//seleziona immagine da fotocamera o galleria
     private void selectImage() {
         final CharSequence[] items = { "Scatta foto", "Scegli dalla galleria",
                 "Indietro" };
         AlertDialog.Builder builder = new AlertDialog.Builder(CreaSegnalazioneActivity.this);
-        builder.setTitle("Foto aggiunta");
+        builder.setTitle("Scegli da dove caricare l'immagine");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -226,7 +237,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         builder.show();
     }
 
-
+//scegli la foto dalla galleria
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -235,14 +246,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     }
 
 
-
+//scegli la foto dalla fotocamera
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
 
-
+//permessi per la fotocamera e il salvataggio nella memoria del dispositivo
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -259,12 +270,12 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     }
 
 
-
+//activity result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
+//salvataggio della stringa problema e posizione anche quando poi vado in mappa e torno
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 String descrizione_problema = data.getStringExtra("Descrizione problema");
@@ -274,14 +285,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
 
 
-        //prende le foto dalla fotocamera ma non le carica
+        //prende le foto dalla fotocamera
         if (requestCode == 0) {
                 if (requestCode == REQUEST_CAMERA)
                     onCaptureImageResult(data);
         }
 
 
-
+//prende le foto dalla galleria
         if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
@@ -297,7 +308,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
 
 
-
+//metodo per prendere le foto dalla fotocamera e salvarle sul dispositivo
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

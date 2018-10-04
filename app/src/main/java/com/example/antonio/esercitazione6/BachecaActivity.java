@@ -26,11 +26,16 @@ package com.example.antonio.esercitazione6;
 
 public class BachecaActivity extends AppCompatActivity {
 
+    //in realtà questa è le mie segnalazioni e non più bacheca
+
+    //dichiarazione array list
     private ListView lista;
     private ArrayList <String> segnalazioni = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //ci rifacciamo al percorso su firebase che ci serve per portare le segnalazioni nell'array list
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacheca);
         lista = findViewById(R.id.lista_segnalazioni);
@@ -63,6 +68,7 @@ public class BachecaActivity extends AppCompatActivity {
         });
 
 
+        //pulsante per tornare alla main
         Button TornaHome = findViewById(R.id.button_torna_alla_home2);
         TornaHome.setOnClickListener(new View.OnClickListener() {
             @Override

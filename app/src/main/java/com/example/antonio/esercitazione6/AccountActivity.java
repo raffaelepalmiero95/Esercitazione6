@@ -63,7 +63,7 @@ import java.util.Map;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+//dichiarazione variabili
     private ImageView profile_img;
     private ImageView camera;
     private String userChoosenTask;
@@ -79,6 +79,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //riferimenti agli id dei layout
         auth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_account);
         profile_img = (ImageView)findViewById(R.id.imageView);
@@ -87,7 +88,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-
+//permessi di uso della fotocamera
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             camera.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
@@ -95,7 +96,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-
+//pulsante di login
         log = findViewById(R.id.btn_log);
          log.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -104,6 +105,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                  startActivity(log_account);
              }
          });
+
+         //se l'utente è loggato il pulsante si chiama gestione account e mette nell'array list i dati dell'utente da firebase
         if (auth.getCurrentUser() != null) {
 
             log.setText("Gestione Account");
@@ -139,10 +142,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
         }
+
+        //se l'utente non è loggato il pulsante si chiama login e non gestisci account
         else {
             log.setText("Login");
         }
 
+        //per tornare alla main
         Button home = findViewById(R.id.torna_home);
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +160,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-
+//click per selezionare la foto nell'account
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -164,6 +170,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //ciclo di vita dell'app
     @Override
     protected void onResume() {
         super.onResume();
@@ -179,11 +186,12 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         super.onDestroy();
     }
 
+    //layout e uso di scelta immagine, da fotocamera, galleria o annulla
     private void selectImage() {
         final CharSequence[] items = { "Scatta foto", "Scegli dalla galleria",
                 "Indietro" };
         AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
-        builder.setTitle("Foto aggiunta");
+        builder.setTitle("Scegli da dove caricare l'immagine");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -204,6 +212,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         builder.show();
     }
 
+    //seleziona il file dalla galleria
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -211,11 +220,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         startActivityForResult(Intent.createChooser(intent, "Seleziona file"),SELECT_FILE);
     }
 
+    //apri fotocamera
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+    //permessi per le foto
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -231,6 +242,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //activity result per fotocamera o galleria
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -246,6 +258,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    //metodo per scattare la foto
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -267,6 +280,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         profile_img.setImageBitmap(thumbnail);
     }
 
+    //metodo per scegliere dalla galleria
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
         Bitmap bm=null;

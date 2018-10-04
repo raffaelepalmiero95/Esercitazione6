@@ -24,8 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    //dichiarazione variabili
     private Button login;
     private Button bacheca;
     private Button segnala;
@@ -37,18 +36,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //riferimenti agli id
          auth = FirebaseAuth.getInstance();
          login=findViewById(R.id.button_login);
          bacheca= findViewById(R.id.button_vai_alla_bacheca);
          segnala=findViewById(R.id.button_aggiungi_segnalazione);
-
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent passa_al_login = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(passa_al_login);
             }});
-
         bacheca.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(passa_alla_bacheca);
                 }
             }});
-
         segnala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
                     finish();
@@ -75,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(passa_alla_segnalazione);
                 }
             }});
-
+        //per vedere in real time quello che viene scritto in evento sul database
         mostra_evento = findViewById(R.id.evento);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mRef = database.getReference("Evento");
