@@ -74,6 +74,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     //
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,38 +107,17 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
 
-                //prova 2 ottobre con uuid
-               myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione Problema").setValue(problema.getText().toString());
-               //
-
-                //come è sempre stato
-                //myRef.child("Users").child(user.getUid()).child("Segnalazioni").push().setValue(problema.getText().toString());
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Descrizione Problema").child(uuid).setValue(problema.getText().toString());
 
 
-                //questo if è funzionante per salvare le posizioni sia da mappa che senza mappa
-                /*
-               if (click){
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
-               }
-               else  {
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
-               }
-               */
-
-
-
-               //prova 2 ottobre
-               if (click){
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
-               }
-               else  {
-                   myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
-               }
-               //
+                if (click){
+                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+                }
+                else  {
+                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+                }
 
                 uploadFile();
-
-
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
@@ -166,25 +146,13 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "File caricato con successo ", Toast.LENGTH_LONG).show();
 
-                            /* funziona ma bisogna metterlo sotto il ramo di segnalazioni con questo prendiamo l'url della foto caricata
                             riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Uri downloadUri = uri;
-                                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(UUID.randomUUID().toString()).child("URL").setValue(downloadUri.toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("URL").setValue(downloadUri.toString());
                                 }
                             });
-                            */
-
-                            //prova 2 ottobre
-                            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Uri downloadUri = uri;
-                                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("URL").setValue(downloadUri.toString());
-                                }
-                            });
-                            //
 
                         }
                     })

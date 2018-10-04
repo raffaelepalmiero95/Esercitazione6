@@ -24,7 +24,7 @@ package com.example.antonio.esercitazione6;
         import java.util.ArrayList;
         import java.util.UUID;
 
-public class BachecaActivity extends CreaSegnalazioneActivity {
+public class BachecaActivity extends AppCompatActivity {
 
     private ListView lista;
     private ArrayList <String> segnalazioni = new ArrayList<>();
@@ -39,35 +39,8 @@ public class BachecaActivity extends CreaSegnalazioneActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-       // DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni/" + "/921b8014-8405-4328-9c19-34f259811b48/" );
+        DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni/Descrizione Problema" );
 
-
-
-        //prova
-        DatabaseReference mRef = database.getReference();
-        mRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String value = dataSnapshot.getValue(String.class);
-                segnalazioni.add(value);
-                arrayAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-        //
-
-/*
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -88,7 +61,6 @@ public class BachecaActivity extends CreaSegnalazioneActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-*/
 
 
         Button TornaHome = findViewById(R.id.button_torna_alla_home2);
