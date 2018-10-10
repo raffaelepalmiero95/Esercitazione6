@@ -115,7 +115,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
                 //scrittura sul database della segnalazione
                 myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
-                myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).setValue(problema.getText().toString());
+                myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
 
                 if (click){
                     myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
