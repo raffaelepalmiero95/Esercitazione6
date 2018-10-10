@@ -89,10 +89,16 @@ public class SignupActivity extends AppCompatActivity {
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
                                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato1").setValue("Nome : " + inputNome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
-                                    myRef.child("Users").child(user.getUid()).child("Dati Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Dato1").setValue("Nome : " + inputNome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
+                                    myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
+                                    //10 ottobre
+                                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato1").setValue("Nome : " + inputNome.getText().toString());
+                                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
+                                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
+                                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
+                                    //
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }

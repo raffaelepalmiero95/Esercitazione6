@@ -119,7 +119,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-            final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati Utente");
+            final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati_Utente");
 
             mRef.addChildEventListener(new ChildEventListener() {
                 @Override

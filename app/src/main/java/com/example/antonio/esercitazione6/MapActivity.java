@@ -44,7 +44,7 @@ import java.util.List;
 
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends SignupActivity implements OnMapReadyCallback {  //estendo signup invece di appcomp
     //dichiarazione variabili
     private Button ok;
     public double Posizione[];

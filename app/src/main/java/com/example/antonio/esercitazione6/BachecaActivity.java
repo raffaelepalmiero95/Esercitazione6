@@ -44,28 +44,38 @@ public class BachecaActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni/Descrizione Problema" );
+
+        DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni"  );
 
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String value = dataSnapshot.getValue(String.class);
-                segnalazioni.add(value);
-                arrayAdapter.notifyDataSetChanged();
+            public void onChildAdded(DataSnapshot dataSnapshot,@Nullable String s) {
+//ci rifacciamo ai getter e setter in dettaglio segnalazione e prendiamo da Segnalazioni su database solo la descrizione
+                    DettaglioSegnalazione dettaglio = dataSnapshot.getValue(DettaglioSegnalazione.class);
+                    segnalazioni.add(dettaglio.getDescrizione_Problema());
+                    arrayAdapter.notifyDataSetChanged();
             }
+
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
             }
+
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
             }
+
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
+
 
 
         //pulsante per tornare alla main

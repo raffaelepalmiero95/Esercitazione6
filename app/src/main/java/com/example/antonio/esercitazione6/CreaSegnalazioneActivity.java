@@ -114,15 +114,22 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             public void onClick(View view) {
 
                 //scrittura sul database della segnalazione
-                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child("Descrizione Problema").child(uuid).setValue(problema.getText().toString());
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
+                myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).setValue(problema.getText().toString());
 
-
-                //se clicca su mappa salva la posizione della mappa, altrimenti quella attuale
                 if (click){
-                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(Posizione[0] + " e " + Posizione[1]);
+                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
+                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(Posizione[1]);
+
+                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("Latitudine").setValue(Posizione[0]);
+                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("Longitudine").setValue(Posizione[1]);
                 }
-                else  {
-                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("Latitudine e Longitudine").setValue(posizione[0] + " e " + posizione[1]);
+                else {
+                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(posizione[0]);
+                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(posizione[1]);
+
+                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("Latitudine").setValue(posizione[0]);
+                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("Longitudine").setValue(posizione[1]);
                 }
 
                 //metodo per caricare le foto sul database
@@ -161,7 +168,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                 public void onSuccess(Uri uri) {
                                     //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
                                     Uri downloadUri = uri;
-                                    myRef.child("Users").child(user.getUid()).child("Dettagli segnalazione").child(uuid).child("URL").setValue(downloadUri.toString());
+                                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("URL").setValue(downloadUri.toString());
+                                    myRef.child("Segnalazioni_Comune").child(user.getUid()).child(uuid).child("URL").setValue(downloadUri.toString());
+
                                 }
                             });
 
