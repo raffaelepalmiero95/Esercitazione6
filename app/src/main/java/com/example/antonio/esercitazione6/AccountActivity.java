@@ -55,6 +55,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,7 +91,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //codice random per distinguere le segnalazioni
     public String uuid = UUID.randomUUID().toString();
-
     //
 
 
@@ -102,7 +102,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         //riferimenti agli id dei layout
         auth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_account);
-        profile_img = (ImageView)findViewById(R.id.imageView);
+        profile_img = (ImageView) findViewById(R.id.imageView);
         camera = (ImageView)findViewById(R.id.imageButton);
         camera.setOnClickListener(this);
 
@@ -135,17 +135,25 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
          //se l'utente è loggato il pulsante si chiama gestione account e mette nell'array list i dati dell'utente da firebase
         if (auth.getCurrentUser() != null) {
-
             log.setText("Gestione Account");
-
-
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             //12 ottobre
+            storageReference = FirebaseStorage.getInstance().getReference();
+            final StorageReference Ref = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo" );
+            Ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
+                    Uri URL_profilo = uri;
+                    Glide.with(getApplicationContext()).load(URL_profilo).into(profile_img);
+                }
+            });
+
+            //
 
             final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati_Utente");
-
             mRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
@@ -155,32 +163,15 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     prendi_email.setText(dettagli.getEmail().toString());
                     prendi_residenza.setText(dettagli.getResidenza().toString());
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
                 }
             });
         }
-
-
         //se l'utente non è loggato il pulsante si chiama login e non gestisci account
         else {
             log.setText("Login");
             camera.setVisibility(View.INVISIBLE);
-            //12 ottobre
-            /*storageReference = FirebaseStorage.getInstance().getReference();
-            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo");
-            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
-                    Uri downloadUri = uri;
-                    Glide.with(getApplicationContext()).load(downloadUri).into(profile_img);
-                }
-            });
-*/
-            //
         }
 
         //per tornare alla main
@@ -194,8 +185,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
-    //12 ottobre
     //metodo per caricare foto dalla fotocamera
     public void uploadFotocamera(){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -211,13 +200,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Immagine caricata con successo ", Toast.LENGTH_LONG).show();
-          /*      riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
-                        Uri downloadUri = uri;
-                    }
-                });*/
             }
         })
                 .addOnFailureListener(new OnFailureListener() {
@@ -253,15 +235,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Immagine caricata con successo ", Toast.LENGTH_LONG).show();
-
-                       /*     riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
-                                    Uri downloadUri = uri;
-                                }
-                            }); */
-
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -280,7 +253,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     });
         }
     }
-    //
+
 
 //click per selezionare la foto nell'account
     @Override
@@ -369,7 +342,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //12 ottobre
 
 //salvataggio della stringa problema e posizione anche quando poi vado in mappa e torno
 
@@ -392,55 +364,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             uploadFile();
         }
     }
-        //
-
-
-/*
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
-        }
-*/
-
     }
 
-/*
-    //metodo per scattare la foto
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        profile_img.setImageBitmap(thumbnail);
-    }
-
-    //metodo per scegliere dalla galleria
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
-        if (data != null) {
-            try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        profile_img.setImageBitmap(bm);
-    }
-    */
 
