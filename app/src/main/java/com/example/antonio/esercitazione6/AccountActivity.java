@@ -70,8 +70,12 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
     private FirebaseAuth auth;
-    private ListView listadati;
-    private ArrayList<String> dati = new ArrayList<>();
+    //12 ottobre
+    private TextView prendi_nome;
+    private TextView prendi_cognome;
+    private TextView prendi_email;
+    private TextView prendi_residenza;
+    //
 
 
 
@@ -85,6 +89,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         profile_img = (ImageView)findViewById(R.id.imageView);
         camera = (ImageView)findViewById(R.id.imageButton);
         camera.setOnClickListener(this);
+
+        //12 ottobre
+        prendi_nome = findViewById(R.id.prendiNome);
+        prendi_cognome = findViewById(R.id.prendiCognome);
+        prendi_email = findViewById(R.id.prendiEmail);
+        prendi_residenza = findViewById(R.id.prendiResidenza);
+        //
 
 
 
@@ -110,38 +121,32 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         if (auth.getCurrentUser() != null) {
 
             log.setText("Gestione Account");
-            listadati = findViewById(R.id.lista_dati);
 
-            final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dati);
-            listadati.setAdapter(arrayAdapter);
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            //12 ottobre
 
             final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati_Utente");
 
-            mRef.addChildEventListener(new ChildEventListener() {
+            mRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
-                    String value = dataSnapshot.getValue(String.class);
-                    dati.add(value);
-                    arrayAdapter.notifyDataSetChanged();
+                public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
+                    DettagliAccount dettagli = dataSnapshot.getValue(DettagliAccount.class);
+                    prendi_nome.setText(dettagli.getNome().toString());
+                    prendi_cognome.setText(dettagli.getCognome().toString());
+                    prendi_email.setText(dettagli.getEmail().toString());
+                    prendi_residenza.setText(dettagli.getResidenza().toString());
                 }
-                @Override
-                public void onChildChanged(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
-                }
-                @Override
-                public void onChildRemoved(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot) {
-                }
-                @Override
-                public void onChildMoved(@NonNull com.google.firebase.database.DataSnapshot dataSnapshot, @Nullable String s) {
-                }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
             });
         }
+
 
         //se l'utente non è loggato il pulsante si chiama login e non gestisci account
         else {

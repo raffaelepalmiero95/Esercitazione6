@@ -43,10 +43,7 @@ public class BachecaActivity extends AppCompatActivity {
         lista.setAdapter(arrayAdapter);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-
         DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni"  );
-
         mRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot,@Nullable String s) {
