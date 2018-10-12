@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -39,6 +40,7 @@ import com.firebase.client.ValueEventListener;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException;
@@ -48,6 +50,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
@@ -60,6 +63,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class AccountActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,11 +74,23 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private Button log;
     private FirebaseAuth auth;
-    //12 ottobre
     private TextView prendi_nome;
     private TextView prendi_cognome;
     private TextView prendi_email;
     private TextView prendi_residenza;
+
+
+    //12 ottobre
+    private Uri filePath; //per caricare la foto dalla galleria sullo storage
+    Bitmap photo; //per caricare la foto dalla fotocamera
+    //reference di storage e database
+    private StorageReference storageReference;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    //codice random per distinguere le segnalazioni
+    public String uuid = UUID.randomUUID().toString();
+
     //
 
 
@@ -151,6 +167,20 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         //se l'utente non è loggato il pulsante si chiama login e non gestisci account
         else {
             log.setText("Login");
+            camera.setVisibility(View.INVISIBLE);
+            //12 ottobre
+            /*storageReference = FirebaseStorage.getInstance().getReference();
+            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo");
+            riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
+                    Uri downloadUri = uri;
+                    Glide.with(getApplicationContext()).load(downloadUri).into(profile_img);
+                }
+            });
+*/
+            //
         }
 
         //per tornare alla main
@@ -161,9 +191,96 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 Intent button_torna_alla_home2 = new Intent(AccountActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
             }});
-
-
     }
+
+
+
+    //12 ottobre
+    //metodo per caricare foto dalla fotocamera
+    public void uploadFotocamera(){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+        byte[] b = stream.toByteArray();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Caricamento");
+        progressDialog.show();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo");
+        riversRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Immagine caricata con successo ", Toast.LENGTH_LONG).show();
+          /*      riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
+                        Uri downloadUri = uri;
+                    }
+                });*/
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Caricamento " + ((int) progress) + "%...");
+                    }
+                });
+    }
+
+
+
+    //metodo per caricare la foto dalla galleria
+    private void uploadFile() {
+        if (filePath != null) {
+
+            storageReference = FirebaseStorage.getInstance().getReference();
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Caricamento");
+            progressDialog.show();
+            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo");
+            riversRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Immagine caricata con successo ", Toast.LENGTH_LONG).show();
+
+                       /*     riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
+                                    Uri downloadUri = uri;
+                                }
+                            }); */
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                            progressDialog.setMessage("Caricamento " + ((int) progress) + "%...");
+                        }
+                    });
+        }
+    }
+    //
 
 //click per selezionare la foto nell'account
     @Override
@@ -252,17 +369,44 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //12 ottobre
 
+//salvataggio della stringa problema e posizione anche quando poi vado in mappa e torno
+
+        if (requestCode == REQUEST_CAMERA && resultCode ==RESULT_OK) {
+            photo = (Bitmap) data.getExtras().get("data");
+            profile_img.setImageBitmap(photo);
+            uploadFotocamera();
+        }
+
+//prende le foto dalla galleria
+        if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                profile_img.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            uploadFile();
+        }
+    }
+        //
+
+
+/*
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
+*/
 
     }
 
-
+/*
     //metodo per scattare la foto
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -298,5 +442,5 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
         profile_img.setImageBitmap(bm);
     }
+    */
 
-}

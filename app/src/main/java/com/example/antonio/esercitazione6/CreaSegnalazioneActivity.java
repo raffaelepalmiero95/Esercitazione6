@@ -66,8 +66,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     public double posizione[];
     private boolean click = true;
     private Uri filePath; //per caricare la foto dalla galleria sullo storage
-    Bitmap photo;
+    Bitmap photo; //per caricare la foto dalla fotocamera
     private boolean foto_gall=true;
+    private boolean senza_foto=true;
 
     //reference di storage e database
     private StorageReference storageReference;
@@ -87,9 +88,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crea_segnalazione);
         //riferimenti agli id nel layout
-        anteprima = (ImageView)findViewById(R.id.image_anteprima);
-        fotocamera = (ImageView)findViewById(R.id.imageButton2);
-        fotocamera.setOnClickListener(this);
+         anteprima = (ImageView)findViewById(R.id.image_anteprima);
+         fotocamera = (ImageView)findViewById(R.id.imageButton2);
+         fotocamera.setOnClickListener(this);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
          problema = findViewById(R.id.text_problema);
@@ -116,34 +117,20 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(View view) {
 
-                //scrittura sul database della segnalazione
-                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
-                myRef.child("Segnalazioni_Comune").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
-                myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("Email").setValue(user.getEmail());
-                myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("ID").setValue(user.getUid());
-
-                if (click){
-                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
-                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(Posizione[1]);
-
-                    myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(Posizione[0]);
-                    myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(Posizione[1]);
+                //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
+                if(senza_foto) {
+                    //scrittura sul database della segnalazione
+                  scriviDatabase();
                 }
-                else {
-                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(posizione[0]);
-                    myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(posizione[1]);
-
-                    myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(posizione[0]);
-                    myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(posizione[1]);
-                }
-
-                //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
-                if (foto_gall)
-                {
-                uploadFotocamera();
-                }
-                else {
-                    uploadFile();
+                else { //altrimenti carica anche con la foto
+                    //scrittura sul database della segnalazione
+                    scriviDatabase();
+                    //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                    if (foto_gall) {
+                        uploadFotocamera();
+                    } else {
+                        uploadFile();
+                    }
                 }
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
@@ -157,6 +144,27 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
+    public void scriviDatabase(){
+        myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
+        myRef.child("Segnalazioni_Comune").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
+        myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("Email").setValue(user.getEmail());
+        myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("ID").setValue(user.getUid());
+
+        if (click) {
+            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
+            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(Posizione[1]);
+
+            myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(Posizione[0]);
+            myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(Posizione[1]);
+        } else {
+            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(posizione[0]);
+            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(posizione[1]);
+
+            myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(posizione[0]);
+            myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(posizione[1]);
+        }
+    }
+
 
     //metodo per caricare foto dalla fotocamera
     public void uploadFotocamera(){
@@ -167,7 +175,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         progressDialog.setTitle("Caricamento");
         progressDialog.show();
         storageReference = FirebaseStorage.getInstance().getReference();
-        final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/" + UUID.randomUUID().toString());
+        final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagini_Segnalazioni/" + UUID.randomUUID().toString());
         riversRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -210,7 +218,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Caricamento");
             progressDialog.show();
-            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/" + UUID.randomUUID().toString());
+            final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/Immagini_Segnalazioni/" + UUID.randomUUID().toString());
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -285,6 +293,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 boolean result=Utility.checkPermission(CreaSegnalazioneActivity.this);
+                senza_foto = false;
                 if (items[item].equals("Scatta foto")) {
                     userChoosenTask ="Scatta foto";
                     if(result)
@@ -295,6 +304,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                         foto_gall = false;
                         galleryIntent();
                 } else if (items[item].equals("Indietro")) {
+                    senza_foto=true;
                     dialog.dismiss();
                 }
             }
