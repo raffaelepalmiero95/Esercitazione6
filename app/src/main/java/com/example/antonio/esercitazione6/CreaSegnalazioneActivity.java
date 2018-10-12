@@ -66,6 +66,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     public double posizione[];
     private boolean click = true;
     private Uri filePath; //per caricare la foto dalla galleria sullo storage
+    Bitmap photo;
+    private boolean foto_gall=true;
 
     //reference di storage e database
     private StorageReference storageReference;
@@ -75,6 +77,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
     //codice random per distinguere le segnalazioni
     public String uuid = UUID.randomUUID().toString();
+
 
 
 
@@ -134,8 +137,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                     myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(posizione[1]);
                 }
 
-                //metodo per caricare le foto sul database
-                uploadFile();
+                //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                if (foto_gall)
+                {
+                uploadFotocamera();
+                }
+                else {
+                    uploadFile();
+                }
 
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
@@ -147,6 +156,50 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
         }
     }
+
+
+    //metodo per caricare foto dalla fotocamera
+    public void uploadFotocamera(){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+        byte[] b = stream.toByteArray();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Caricamento");
+        progressDialog.show();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference riversRef = storageReference.child("Immagini/" + user.getUid() + "/" + UUID.randomUUID().toString());
+        riversRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "File caricato con successo ", Toast.LENGTH_LONG).show();
+                riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //per salvare l'url della foto e inviarlo anche al database collegato alla segnalazione
+                        Uri downloadUri = uri;
+                        myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("URL").setValue(downloadUri.toString());
+                        myRef.child("Segnalazioni_Comune").child(uuid).child("URL").setValue(downloadUri.toString());
+                    }
+                });
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        progressDialog.setMessage("Caricamento " + ((int) progress) + "%...");
+                    }
+                });
+    }
+
 
 
 //metodo per caricare la foto dalla galleria
@@ -239,6 +292,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 } else if (items[item].equals("Scegli dalla galleria")) {
                     userChoosenTask ="Scegli dalla galleria";
                     if(result)
+                        foto_gall = false;
                         galleryIntent();
                 } else if (items[item].equals("Indietro")) {
                     dialog.dismiss();
@@ -296,12 +350,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
 
 
-        //prende le foto dalla fotocamera
-        if (requestCode == 0) {
-                if (requestCode == REQUEST_CAMERA)
-                    onCaptureImageResult(data);
+        if (requestCode == REQUEST_CAMERA && resultCode ==RESULT_OK) {
+            photo = (Bitmap) data.getExtras().get("data");
+            anteprima.setImageBitmap(photo);
         }
-
 
 //prende le foto dalla galleria
         if (requestCode == SELECT_FILE && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -314,31 +366,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 e.printStackTrace();
             }
         }
-    }
-
-
-
-
-//metodo per prendere le foto dalla fotocamera e salvarle sul dispositivo
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
-
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        anteprima.setImageBitmap(thumbnail);
     }
 
 
