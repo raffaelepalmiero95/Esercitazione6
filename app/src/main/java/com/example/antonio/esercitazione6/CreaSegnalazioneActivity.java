@@ -56,7 +56,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
     //dichiarazione variabili
     private ImageView anteprima;
-    private ImageView fotocamera;
+    private ImageView camera;
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 3;
     private Button annulla;
@@ -89,8 +89,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         setContentView(R.layout.activity_crea_segnalazione);
         //riferimenti agli id nel layout
          anteprima = (ImageView)findViewById(R.id.image_anteprima);
-         fotocamera = (ImageView)findViewById(R.id.imageButton2);
-         fotocamera.setOnClickListener(this);
+         camera = (ImageView)findViewById(R.id.imageButton2);
+         camera.setOnClickListener(this);
          annulla = findViewById(R.id.button_annulla);
          invio = findViewById(R.id.button_invia);
          problema = findViewById(R.id.text_problema);
@@ -132,16 +132,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                         uploadFile();
                     }
                 }
-
+                Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
                 Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(fine_segnalazione);
             }});
 
-           //permessi della fotocamera
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            fotocamera.setEnabled(false);
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        }
     }
 
     public void scriviDatabase(){
@@ -256,7 +251,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         }
     }
 
-//click del pulsante fotocamera
+    //click per selezionare la foto nell'account
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -312,6 +307,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         builder.show();
     }
 
+
 //scegli la foto dalla galleria
     private void galleryIntent() {
         Intent intent = new Intent();
@@ -328,7 +324,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     }
 
 
-//permessi per la fotocamera e il salvataggio nella memoria del dispositivo
+
+
+    //permessi per la fotocamera e il salvataggio nella memoria del dispositivo
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -359,7 +357,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             }
         }
 
-
+//prende le foto dalla fotocamera
         if (requestCode == REQUEST_CAMERA && resultCode ==RESULT_OK) {
             photo = (Bitmap) data.getExtras().get("data");
             anteprima.setImageBitmap(photo);

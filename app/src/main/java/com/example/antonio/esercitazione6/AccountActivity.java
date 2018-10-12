@@ -72,16 +72,13 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView profile_img;
     private ImageView camera;
     private String userChoosenTask;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 3; // 1
     private Button log;
     private FirebaseAuth auth;
     private TextView prendi_nome;
     private TextView prendi_cognome;
     private TextView prendi_email;
     private TextView prendi_residenza;
-
-
-    //12 ottobre
     private Uri filePath; //per caricare la foto dalla galleria sullo storage
     Bitmap photo; //per caricare la foto dalla fotocamera
     //reference di storage e database
@@ -90,8 +87,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     final DatabaseReference myRef = database.getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //codice random per distinguere le segnalazioni
-    public String uuid = UUID.randomUUID().toString();
-    //
+
+
 
 
 
@@ -105,21 +102,11 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         profile_img = (ImageView) findViewById(R.id.imageView);
         camera = (ImageView)findViewById(R.id.imageButton);
         camera.setOnClickListener(this);
-
-        //12 ottobre
         prendi_nome = findViewById(R.id.prendiNome);
         prendi_cognome = findViewById(R.id.prendiCognome);
         prendi_email = findViewById(R.id.prendiEmail);
         prendi_residenza = findViewById(R.id.prendiResidenza);
-        //
 
-
-
-//permessi di uso della fotocamera
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            camera.setEnabled(false);
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        }
 
 
 
@@ -311,7 +298,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Seleziona file"),SELECT_FILE);
     }
 

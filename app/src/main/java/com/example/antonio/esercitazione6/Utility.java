@@ -26,8 +26,8 @@ public class Utility {
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                     alertBuilder.setCancelable(true);
-                    alertBuilder.setTitle("Permission necessary");
-                    alertBuilder.setMessage("External storage permission is necessary");
+                    alertBuilder.setTitle("Permessi necessari");
+                    alertBuilder.setMessage("Permessi necessari per la memoria esterna");
                     alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

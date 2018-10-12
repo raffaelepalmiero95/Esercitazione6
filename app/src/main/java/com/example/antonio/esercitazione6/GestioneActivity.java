@@ -168,7 +168,7 @@ public class GestioneActivity extends AppCompatActivity {
               if (user == null)
                 {
                    startActivity(new Intent(GestioneActivity.this, LoginActivity.class));
-                    finish();
+                  finish();
                 }
             }
         };

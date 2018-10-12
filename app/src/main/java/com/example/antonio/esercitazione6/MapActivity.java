@@ -44,8 +44,8 @@ import java.util.List;
 
 
 
-public class MapActivity extends SignupActivity implements OnMapReadyCallback {  //estendo signup invece di appcomp
-    //dichiarazione variabili
+public class MapActivity extends SignupActivity implements OnMapReadyCallback {
+   //dichiarazione variabili
     private Button ok;
     public double Posizione[];
     Intent resultIntent = new Intent();
@@ -57,20 +57,23 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
         //richiesta permessi di posizione
         if (mLocationPermissionsGranted)
         {
-            getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            {
-                return;
-            }
-            mMap.setMyLocationEnabled(true);
+           // getDeviceLocation();
+            //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            //        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+            //        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+           // {
+            //    return;
+           // }
+           // mMap.setMyLocationEnabled(true);
+
             //questo pulsante mi riporta alla posizione attuale anche se cerco altri luoghi sulla mappa
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            init();
+           // init();
         }
     }
+
+
     //dichiarazioni variabili
     private static final String TAG = "Mappa";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -103,6 +106,11 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
         });
         getLocationPermission();
     }
+
+
+    //prova
+
+    //
 
     //inizializzo la mappa
     private void init(){
@@ -193,6 +201,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
         mapFragment.getMapAsync(MapActivity.this);
     }
 
+
     //permessi di localizzazione
     private void getLocationPermission(){
         Log.d(TAG, "Ho i permessi di localizzazione");
@@ -216,6 +225,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback { 
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

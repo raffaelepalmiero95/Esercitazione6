@@ -1,11 +1,18 @@
 package com.example.antonio.esercitazione6;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.nfc.Tag;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextView mostra_evento;
 
+
+    private String userChoosenTask;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,5 +95,17 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+
+        //permessi della fotocamera
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+       }
+
+
+
     }
+
+
+
 }
