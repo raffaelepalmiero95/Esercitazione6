@@ -6,30 +6,30 @@ public class DettaglioSegnalazione {
     private String Descrizione_Problema;
     private String URL;
     //20 ottobre
-    private String Data_Ora;
+    private String Data;
     //
 
     public DettaglioSegnalazione() {
 
     }
 
-    public DettaglioSegnalazione(String problema, double latitudine, double longitudine, String URL,String data_Ora) {
+    public DettaglioSegnalazione(String problema, double latitudine, double longitudine, String URL,String data) {
        this.Latitudine = latitudine;
         this.Longitudine = longitudine;
         this.Descrizione_Problema = problema;
         this.URL = URL;
         //20 ottobre
-        this.Data_Ora = data_Ora;
+        this.Data = data;
         //
     }
 
 //20 ottobre
-    public String getData_Ora() {
-        return Data_Ora;
+    public String getData() {
+        return Data;
     }
 
-    public void setData_Ora(String data_Ora) {
-        Data_Ora = data_Ora;
+    public void setData(String data) {
+        Data = data;
     }
     //
 

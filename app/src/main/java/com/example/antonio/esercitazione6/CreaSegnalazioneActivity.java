@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -81,12 +82,14 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     //codice random per distinguere le segnalazioni
     public String uuid = UUID.randomUUID().toString();
 
-    //20 ottobre
+    //per scrivere data e ora
     Calendar calendar;
     private String Date;
     SimpleDateFormat simpleDateFormat;
-    //
 
+    //check per il gps
+    LocationManager locationManager ;
+    boolean GpsStatus ;
 
 
 
@@ -102,12 +105,10 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
          invio = findViewById(R.id.button_invia);
          problema = findViewById(R.id.text_problema);
          mappa = findViewById(R.id.imageButton3);
-
-         //20 ottobre
         calendar = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Date = simpleDateFormat.format(calendar.getTime());
-        //
+
 
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,38 +121,64 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         mappa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //check segnale gps
+                CheckGpsStatus() ;
                 // cliccando su mappa salva la posizione sul db cercata in mappa, se non clicchi su mappa salva la posizione attuale del dispositivo
-                click=false;
-                Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this,MapActivity.class);
-                vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
-                startActivityForResult(vai_alla_mappa,1);
+                if(GpsStatus == true) {
+                    click = false;
+                    Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
+                    vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
+                    startActivityForResult(vai_alla_mappa, 1);
+                }
+                else {
+                    Toast.makeText(CreaSegnalazioneActivity.this, "Attiva il GPS per avere accesso alla mappa", Toast.LENGTH_SHORT).show();
+                }
             }});
 
            invio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
-                if(senza_foto) {
-                    //scrittura sul database della segnalazione
-                  scriviDatabase();
-                }
-                else { //altrimenti carica anche con la foto
-                    //scrittura sul database della segnalazione
-                    scriviDatabase();
-                    //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
-                    if (foto_gall) {
-                        uploadFotocamera();
-                    } else {
-                        uploadFile();
+                //check segnale gps
+                CheckGpsStatus() ;
+
+                if(GpsStatus == true) {
+
+                    //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
+                    if (senza_foto) {
+                        //scrittura sul database della segnalazione
+                        scriviDatabase();
+                    } else { //altrimenti carica anche con la foto
+                        //scrittura sul database della segnalazione
+                        scriviDatabase();
+                        //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                        if (foto_gall) {
+                            uploadFotocamera();
+                        } else {
+                            uploadFile();
+                        }
                     }
+                    Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
+                    Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
+                    startActivity(fine_segnalazione);
                 }
-                Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
-                Intent fine_segnalazione = new Intent (CreaSegnalazioneActivity.this,MainActivity.class);
-                startActivity(fine_segnalazione);
+                else {
+                    Toast.makeText(CreaSegnalazioneActivity.this, "Segnale GPS assente", Toast.LENGTH_SHORT).show();
+                }
+
+
             }});
 
     }
+
+    //check per la posizione
+    public void CheckGpsStatus(){
+
+        locationManager = (LocationManager)getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+    }
+
 
     public void scriviDatabase(){
         myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
@@ -160,8 +187,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("ID").setValue(user.getUid());
 
         //20 ottobre
-        myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Data_Ora").setValue(Date.toString());
-        myRef.child("Segnalazioni_Comune").child(uuid).child("Data_Ora").setValue(Date.toString());
+        myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Data").setValue(Date.toString());
+        myRef.child("Segnalazioni_Comune").child(uuid).child("Data").setValue(Date.toString());
         //
 
         if (click) {

@@ -4,42 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sfondo"
+    android:background="@drawable/incomunewall"
     tools:context=".GestioneActivity">
-
-    <EditText
-        android:id="@+id/old_email"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/password"
-        android:layout_centerHorizontal="true"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/useremail" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="368dp"
-        android:layout_height="42dp"
-        android:layout_above="@+id/newPassword"
-        android:layout_toEndOf="@+id/progressBar"
-        android:focusableInTouchMode="true"
-        android:hint="@string/prompt_password"
-        android:imeActionId="@+id/login"
-        android:imeOptions="actionUnspecified"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/newPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/old_email"
-        tools:ignore="InvalidImeActionId" />
 
     <EditText
         android:id="@+id/newPassword"
@@ -47,61 +13,35 @@
         android:layout_height="43dp"
         android:layout_above="@+id/changePass"
         android:layout_alignParentStart="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:focusableInTouchMode="true"
         android:hint="Nuova password "
+        android:background="@color/btnColor"
         android:imeActionId="@+id/login"
         android:imeOptions="actionUnspecified"
         android:inputType="textPassword"
         android:maxLines="1"
-        app:layout_constraintBottom_toTopOf="@+id/changePass"
+        app:layout_constraintBottom_toTopOf="@+id/change_password_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        tools:ignore="InvalidImeActionId" />
-
-    <Button
-        android:id="@+id/changePass"
-        style="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/remove"
-        android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimaryDark"
-        android:text="Cambia"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/remove"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/useremail"
+        tools:ignore="InvalidImeActionId,UnknownId" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="17dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/remove"
-        style="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/change_password_button"
-        android:layout_alignStart="@+id/changePass"
-        android:background="@color/colorPrimaryDark"
-        android:text="Rimuovi"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/change_password_button"
+        app:layout_constraintBottom_toTopOf="@+id/useremail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePass" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/change_password_button"
@@ -110,30 +50,32 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/remove_user_button"
         android:layout_alignStart="@+id/remove_user_button"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
         android:text="Cambia Password"
         android:textColor="#000000"
-        android:background="@drawable/rounded_button"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/remove_user_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/remove" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassword" />
 
     <Button
         android:id="@+id/remove_user_button"
         style="?android:textAppearanceSmall"
-        android:layout_width="300dp"
+        android:layout_width="303dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/sign_out"
         android:layout_alignStart="@+id/sign_out"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/rounded_button"
         android:text="Rimuovi utente "
         android:textColor="#000000"
-        android:background="@drawable/rounded_button"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sign_out"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/change_password_button" />
 
@@ -144,13 +86,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/rounded_button"
         android:text="Logout"
         android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/remove_user_button" />
 
@@ -158,17 +101,17 @@
         android:id="@+id/useremail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/old_email"
         android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:gravity="center"
         android:text="@string/useremail"
+        android:textColor="#000000"
         android:textSize="30sp"
         android:textStyle="bold|italic"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/old_email"
+        app:layout_constraintBottom_toTopOf="@+id/newPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </android.support.constraint.ConstraintLayout>

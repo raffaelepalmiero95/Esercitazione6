@@ -19,10 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class GestioneActivity extends AppCompatActivity {
     //dichiarazione variabili
-    private Button btnChangePassword, btnRemoveUser,
-            changePassword, remove, signOut;
+    private Button btnChangePassword, btnRemoveUser,signOut;
     public TextView email;
-    private EditText oldEmail, password, newPassword;
+    private EditText newPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -34,7 +33,9 @@ public class GestioneActivity extends AppCompatActivity {
 
         //riferimenti agli id layout
         auth = FirebaseAuth.getInstance();
+
         email = (TextView) findViewById(R.id.useremail);
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         setDataToView(user);
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -47,38 +48,24 @@ public class GestioneActivity extends AppCompatActivity {
                 }
             }
         };
+
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
         btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
-        changePassword = (Button) findViewById(R.id.changePass);
-        remove = (Button) findViewById(R.id.remove);
         signOut = (Button) findViewById(R.id.sign_out);
-        oldEmail = (EditText) findViewById(R.id.old_email);
-        password = (EditText) findViewById(R.id.password);
         newPassword = (EditText) findViewById(R.id.newPassword);
-        oldEmail.setVisibility(View.GONE);
-        password.setVisibility(View.GONE);
         newPassword.setVisibility(View.GONE);
-        changePassword.setVisibility(View.GONE);
-        remove.setVisibility(View.GONE);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
+
+        //cambio password
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oldEmail.setVisibility(View.GONE);
-                password.setVisibility(View.GONE);
                 newPassword.setVisibility(View.VISIBLE);
-                changePassword.setVisibility(View.VISIBLE);
-                remove.setVisibility(View.GONE);
-            }
-        });
-        //per cambiare la password all'utente
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+
                 if (user != null && !newPassword.getText().toString().trim().equals("")) {
                     if (newPassword.getText().toString().trim().length() < 6) {
                         newPassword.setError("Password troppo corta, inserisci almeno 6 caratteri");
@@ -105,6 +92,7 @@ public class GestioneActivity extends AppCompatActivity {
                 }
             }
         });
+
 //rimuovere l'utente dal database
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +105,7 @@ public class GestioneActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato eliminato", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(GestioneActivity.this, SignupActivity.class));
+                                        startActivity(new Intent(GestioneActivity.this, MainActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {

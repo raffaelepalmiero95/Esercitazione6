@@ -26,6 +26,8 @@ package com.example.antonio.esercitazione6;
         import java.util.ArrayList;
         import java.util.UUID;
 
+        //questa classe in realtà è le mie segnalazioni e non bacheca
+
 public class BachecaActivity extends AppCompatActivity {
 
     //in realtà questa è le mie segnalazioni e non più bacheca
@@ -45,7 +47,7 @@ public class BachecaActivity extends AppCompatActivity {
         lista.setAdapter(arrayAdapter);
 
 
-        //prova 17 ottobre click elementi lista
+        //click elementi lista
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id){
@@ -53,7 +55,7 @@ public class BachecaActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Descrizione problema: " + riga, Toast.LENGTH_LONG).show();
             }
         });
-        //
+
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -63,7 +65,7 @@ public class BachecaActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot,@Nullable String s) {
 //ci rifacciamo ai getter e setter in dettaglio segnalazione e prendiamo da Segnalazioni su database solo la descrizione
-                    DettaglioSegnalazione dettaglio = dataSnapshot.getValue(DettaglioSegnalazione.class);
+                    final DettaglioSegnalazione dettaglio = dataSnapshot.getValue(DettaglioSegnalazione.class);
                     segnalazioni.add(dettaglio.getDescrizione_Problema());
                     arrayAdapter.notifyDataSetChanged();
 

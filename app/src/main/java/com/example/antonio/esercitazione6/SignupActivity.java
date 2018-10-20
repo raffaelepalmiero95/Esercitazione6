@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignupActivity extends AppCompatActivity {
     //dichiarazione variabili
     public EditText inputEmail, inputPassword,inputNome,inputCognome,inputResidenza;
-    private Button btnSignIn, btnSignUp, btnResetPassword;
+    private Button btnSignIn, btnSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
 
@@ -38,16 +38,10 @@ public class SignupActivity extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
         inputNome = (EditText) findViewById(R.id.registra_nome);
         inputCognome = (EditText) findViewById(R.id.registra_cognome);
         inputResidenza = (EditText) findViewById(R.id.registra_residenza);
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
-            }
-        });
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +66,20 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Password troppo corta, inserisci almeno 6 caratteri", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //se i campi nome cognome e residenza sono vuoti li richiede
+                if (TextUtils.isEmpty(inputNome.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Inserisci il tuo nome", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(inputCognome.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Inserisci il tuo cognome", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(inputResidenza.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Inserisci la tua residenza", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 progressBar.setVisibility(View.VISIBLE);
                 // crea l'account con successo
                 auth.createUserWithEmailAndPassword(inputEmail.getText().toString(), inputPassword.getText().toString())

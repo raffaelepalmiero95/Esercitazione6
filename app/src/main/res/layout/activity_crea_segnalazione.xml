@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sfondo"
+    android:background="@drawable/incomunewall"
     tools:context=".CreaSegnalazioneActivity">
+
+    <android.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#B0C4DE"/>
 
     <ImageButton
         android:id="@+id/imageButton3"
@@ -13,7 +19,7 @@
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/iconColor"
+        android:backgroundTint="#B0C4DE"
         app:layout_constraintBottom_toTopOf="@+id/image_anteprima"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -24,21 +30,23 @@
 
     <TextView
         android:id="@+id/textView_segnalazione"
-        android:layout_width="358dp"
-        android:layout_height="37dp"
+        android:layout_width="306dp"
+        android:layout_height="33dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/crea_nuova_segnalazione"
-        android:textAlignment="center"
+        android:text="Crea una nuova segnalazione "
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button_annulla"
@@ -89,7 +97,7 @@
         android:layout_height="44dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/iconColor"
+        android:backgroundTint="#B0C4DE"
         app:layout_constraintBottom_toTopOf="@+id/image_anteprima"
         app:layout_constraintEnd_toStartOf="@+id/imageButton3"
         app:layout_constraintHorizontal_bias="0.5"
@@ -101,18 +109,21 @@
     <EditText
         android:id="@+id/text_problema"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="450dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="@string/descrivi"
+        android:background="@color/btnColor"
         android:inputType="none"
         android:textColorLink="@color/btnColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_segnalazione" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.416" />
 
 </android.support.constraint.ConstraintLayout>

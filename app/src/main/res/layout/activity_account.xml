@@ -5,9 +5,11 @@
     android:id="@+id/cognome_profilo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sfondo"
+    android:background="@drawable/incomunewall"
     tools:context=".AccountActivity"
     tools:ignore="DuplicateIds">
+
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -31,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@color/iconColor"
+        android:backgroundTint="#B0C4DE"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:srcCompat="@drawable/icona_aggiungi_foto"
