@@ -49,6 +49,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 
@@ -79,6 +81,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     //codice random per distinguere le segnalazioni
     public String uuid = UUID.randomUUID().toString();
 
+    //20 ottobre
+    Calendar calendar;
+    private String Date;
+    SimpleDateFormat simpleDateFormat;
+    //
 
 
 
@@ -96,11 +103,18 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
          problema = findViewById(R.id.text_problema);
          mappa = findViewById(R.id.imageButton3);
 
+         //20 ottobre
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date = simpleDateFormat.format(calendar.getTime());
+        //
+
         annulla.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent torna_alla_home = new Intent(CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(torna_alla_home);
+                finish(); //aggiunto il 16 ottobre per chiuedere crea segnalazione dopo aver fatto annulla
             }});
 
         mappa.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +159,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("Email").setValue(user.getEmail());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("ID").setValue(user.getUid());
 
+        //20 ottobre
+        myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Data_Ora").setValue(Date.toString());
+        myRef.child("Segnalazioni_Comune").child(uuid).child("Data_Ora").setValue(Date.toString());
+        //
+
         if (click) {
             myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
             myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(Posizione[1]);
@@ -164,7 +183,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     //metodo per caricare foto dalla fotocamera
     public void uploadFotocamera(){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] b = stream.toByteArray();
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Caricamento");

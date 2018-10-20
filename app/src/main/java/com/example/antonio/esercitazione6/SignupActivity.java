@@ -80,7 +80,6 @@ public class SignupActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(SignupActivity.this, "Account creato con successo " , Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
-                                //al momento della registrazione chiede una email valida
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();
@@ -109,12 +108,3 @@ public class SignupActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 }
-
-
-
-/*
-myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato1").setValue("Nome : " + inputNome.getText().toString());
-myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato2").setValue("Cognome : " + inputCognome.getText().toString());
-myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato3").setValue("Email : " + inputEmail.getText().toString());
-myRef.child("Segnalazioni_Comune").child(user.getUid()).child("Dati_Utente").child("Dato4").setValue("Residenza : " + inputResidenza.getText().toString());
-*/

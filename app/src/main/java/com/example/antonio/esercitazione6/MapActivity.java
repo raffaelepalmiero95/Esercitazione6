@@ -57,19 +57,19 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
         //richiesta permessi di posizione
         if (mLocationPermissionsGranted)
         {
-           // getDeviceLocation();
-            //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            //        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-            //        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-           // {
-            //    return;
-           // }
-           // mMap.setMyLocationEnabled(true);
+            getDeviceLocation();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+                return;
+            }
+           mMap.setMyLocationEnabled(true);
 
             //questo pulsante mi riporta alla posizione attuale anche se cerco altri luoghi sulla mappa
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-           // init();
+            init();
         }
     }
 
@@ -108,9 +108,6 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
     }
 
 
-    //prova
-
-    //
 
     //inizializzo la mappa
     private void init(){

@@ -31,6 +31,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="250dp"
         android:text="@string/button_posizione"
+        android:textColor="#000000"
+        android:background="@drawable/rounded_button"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -69,6 +71,7 @@
             android:background="@color/common_google_signin_btn_text_dark_default"
             android:hint="Inserisci l'indirizzo"
             android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:textColor="#000"
             android:textSize="15sp" />
 

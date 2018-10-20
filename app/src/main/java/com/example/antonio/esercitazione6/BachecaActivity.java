@@ -6,9 +6,11 @@ package com.example.antonio.esercitazione6;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.view.View;
+        import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.ListView;
+        import android.widget.Toast;
 
         import com.firebase.client.Firebase;
         import com.firebase.client.FirebaseError;
@@ -41,6 +43,19 @@ public class BachecaActivity extends AppCompatActivity {
         lista = findViewById(R.id.lista_segnalazioni);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, segnalazioni);
         lista.setAdapter(arrayAdapter);
+
+
+        //prova 17 ottobre click elementi lista
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id){
+                final String riga = (String) adattatore.getItemAtPosition(pos);
+                Toast.makeText(getApplicationContext(), "Descrizione problema: " + riga, Toast.LENGTH_LONG).show();
+            }
+        });
+        //
+
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Segnalazioni"  );
@@ -51,6 +66,7 @@ public class BachecaActivity extends AppCompatActivity {
                     DettaglioSegnalazione dettaglio = dataSnapshot.getValue(DettaglioSegnalazione.class);
                     segnalazioni.add(dettaglio.getDescrizione_Problema());
                     arrayAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -82,6 +98,7 @@ public class BachecaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent button_torna_alla_home2 = new Intent(BachecaActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
+                finish(); //aggiunto il 16 ottobre per chiuedere la lista dopo essere tornati in bacheca
             }});
     }
 }

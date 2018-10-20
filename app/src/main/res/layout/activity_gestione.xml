@@ -38,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/old_email" />
+        app:layout_constraintTop_toBottomOf="@+id/old_email"
+        tools:ignore="InvalidImeActionId" />
 
     <EditText
         android:id="@+id/newPassword"
@@ -56,7 +57,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        tools:ignore="InvalidImeActionId" />
 
     <Button
         android:id="@+id/changePass"
@@ -81,7 +83,8 @@
         android:layout_height="0dp"
         android:visibility="gone"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/remove"
@@ -108,6 +111,8 @@
         android:layout_above="@+id/remove_user_button"
         android:layout_alignStart="@+id/remove_user_button"
         android:text="Cambia Password"
+        android:textColor="#000000"
+        android:background="@drawable/rounded_button"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/remove_user_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,6 +128,8 @@
         android:layout_above="@+id/sign_out"
         android:layout_alignStart="@+id/sign_out"
         android:text="Rimuovi utente "
+        android:textColor="#000000"
+        android:background="@drawable/rounded_button"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/sign_out"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,9 +144,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:background="@drawable/rounded_button"
         android:text="Logout"
-        android:textColor="@color/common_google_signin_btn_text_light_default"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,6 +164,7 @@
         android:text="@string/useremail"
         android:textSize="30sp"
         android:textStyle="bold|italic"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/old_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

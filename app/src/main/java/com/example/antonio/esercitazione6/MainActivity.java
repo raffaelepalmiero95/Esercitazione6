@@ -3,9 +3,14 @@ package com.example.antonio.esercitazione6;
 import android.Manifest;
 import android.accounts.Account;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.Tag;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -38,19 +43,30 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextView mostra_evento;
 
+    //20 ottobre
+    private BroadcastReceiver broadcastReceiver;
+    //
 
-    private String userChoosenTask;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        //20 ottobre
+        checkInternetActivity();
+        //
+
         //riferimenti agli id
          auth = FirebaseAuth.getInstance();
          login=findViewById(R.id.button_login);
          bacheca= findViewById(R.id.button_vai_alla_bacheca);
          segnala=findViewById(R.id.button_aggiungi_segnalazione);
+
+
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, BachecaActivity.class));
-                    finish();
+                    //finish(); commentato il 17 ottobre per vedere se si chiude ancora sulle mie segnalazioni col tasto indietro
                 }
                 else {
                     Intent passa_alla_bacheca = new Intent(MainActivity.this,LoginActivity.class);
@@ -74,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (auth.getCurrentUser() != null) {
                     startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
-                    finish();
+                    //finish(); commentato il 17 ottobre per vedere se si chiude ancora sulle mie segnalazioni col tasto indietro
                 }
                 else {
                     Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
@@ -101,11 +117,32 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
        }
+    }
 
-
-
+    //20 ottobre internet
+    private void checkInternetActivity(){
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+         broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int[] type = {ConnectivityManager.TYPE_WIFI, ConnectivityManager.TYPE_MOBILE};
+                if (CheckInternetBroadcast.isNetworkAvailable(context, type)==true){
+                    return;
+                }else{
+                    Intent check = new Intent(MainActivity.this, ErroreConnessione.class);
+                    startActivity(check);
+                    finish();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
 
+    public void onDestroy(){
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
+    //
 
 }

@@ -60,4 +60,5 @@
     <string name="Evento" />
     <string name="Evento1">Qui compariranno i nuovi eventi!</string>
     <string name="Evento2">Qui appariranno i nuovi eventi!</string>
+    <string name="title_activity_errore_connessione">ErroreConnessione</string>
 </resources>

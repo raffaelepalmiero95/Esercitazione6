@@ -168,6 +168,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 Intent button_torna_alla_home2 = new Intent(AccountActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
+                finish(); //aggiunto 16 ottobre così premendo il tasto indietro si è chiusa la finestra account definitivamente
             }});
     }
 
@@ -175,7 +176,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     //metodo per caricare foto dalla fotocamera
     public void uploadFotocamera(){
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] b = stream.toByteArray();
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Caricamento");
