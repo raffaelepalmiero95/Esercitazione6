@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -143,6 +144,11 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 CheckGpsStatus() ;
 
                 if(GpsStatus == true) {
+
+                    if (TextUtils.isEmpty(problema.getText().toString())) {
+                        Toast.makeText(getApplicationContext(), "Inserisci una descrizione valida", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
                     if (senza_foto) {
