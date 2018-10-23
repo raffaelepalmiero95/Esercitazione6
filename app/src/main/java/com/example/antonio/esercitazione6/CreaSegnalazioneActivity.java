@@ -153,8 +153,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                         Toast.makeText(getApplicationContext(), "Inserisci una descrizione valida", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo
-                    //l'utente ancora non ha preso cura della posizione che sta inviando
+                    //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo.
+                    //l'utente ancora non ha preso cura della posizione che sta inviando.
                     if (v_dialog) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(CreaSegnalazioneActivity.this);
                         builder.setTitle("Position");
