@@ -16,12 +16,12 @@
 
     <Button
         android:id="@+id/button_login"
-        android:layout_width="45dp"
-        android:layout_height="34dp"
+        android:layout_width="44dp"
+        android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#B0C4DE"
+        android:layout_marginTop="0dp"
+        android:background="@null"
         android:drawableBottom="@drawable/icona_account"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"

@@ -153,20 +153,19 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                         Toast.makeText(getApplicationContext(), "Inserisci una descrizione valida", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo.
-                    //l'utente ancora non ha preso cura della posizione che sta inviando.
+                    //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo
+                    //l'utente ancora non ha preso cura della posizione che sta inviando
                     if (v_dialog) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(CreaSegnalazioneActivity.this);
-                        builder.setTitle("Position");
-                        builder.setMessage("Vuoi Utilizzare la posizione attuale?");
-                        builder.setNegativeButton("Mappa", new DialogInterface.OnClickListener() {
+                        builder.setTitle("Attenzione");
+                        builder.setMessage("Cliccando INVIA salverà la posizione corrente. Per modificare la posizione cliccare su INDIETRO e infine su mappa.");
+                        builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 v_dialog = false;
-                                Intent Mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
-                                startActivity(Mappa);
-
-
+                                /*Intent Mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
+                                startActivity(Mappa);*/
+                                closeOptionsMenu();
                             }
                         });
                         builder.setPositiveButton("Invia", new DialogInterface.OnClickListener() {

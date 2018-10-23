@@ -32,7 +32,7 @@
         android:layout_marginStart="250dp"
         android:text="@string/button_posizione"
         android:textColor="#000000"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/rounded_icon"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
