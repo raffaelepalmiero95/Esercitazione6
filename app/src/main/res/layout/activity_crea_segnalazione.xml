@@ -11,7 +11,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#B0C4DE"/>
+        android:background="#B0C4DE"
+         />
+
+
+    />
+
 
     <ImageButton
         android:id="@+id/imageButton3"
@@ -26,7 +31,8 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton2"
         app:layout_constraintTop_toBottomOf="@+id/text_problema"
         app:srcCompat="@drawable/ic_add_location_black_24dp"
-        tools:ignore="VectorDrawableCompat" />
+        tools:ignore="VectorDrawableCompat"
+        />
 
     <TextView
         android:id="@+id/textView_segnalazione"

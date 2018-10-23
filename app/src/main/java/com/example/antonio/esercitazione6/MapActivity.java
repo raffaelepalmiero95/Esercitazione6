@@ -1,11 +1,14 @@
 package com.example.antonio.esercitazione6;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,21 +53,22 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
     public double Posizione[];
     Intent resultIntent = new Intent();
 
+
+
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+
+    public void onMapReady (GoogleMap googleMap){
         Log.d(TAG, "La mappa è pronta");
         mMap = googleMap;
         //richiesta permessi di posizione
-        if (mLocationPermissionsGranted)
-        {
+        if (mLocationPermissionsGranted) {
             getDeviceLocation();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-            {
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-           mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(true);
 
             //questo pulsante mi riporta alla posizione attuale anche se cerco altri luoghi sulla mappa
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -72,6 +76,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
             init();
         }
     }
+
 
 
     //dichiarazioni variabili
@@ -84,6 +89,8 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    LocationManager locationManager ;
+    boolean GpsStatus ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,8 +112,18 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
             }
         });
         getLocationPermission();
+
+
+
     }
 
+    public void CheckGpsStatus(){
+
+        locationManager = (LocationManager)getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
+
+        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+    }
 
 
     //inizializzo la mappa
@@ -177,7 +194,11 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
     }
 
     //salvataggio della posizione ricercata, con zoom verso la zona ricercata
-    private double[] moveCamera(LatLng latLng, float zoom, String title){
+
+
+
+
+   private double[] moveCamera(LatLng latLng, float zoom, String title){
         Log.d(TAG, "Questa è la tua posizione: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
         MarkerOptions options = new MarkerOptions()
@@ -246,6 +267,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
             }
         }
     }
+
 }
 
 

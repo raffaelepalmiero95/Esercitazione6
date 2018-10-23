@@ -70,9 +70,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ErroreConnessione"
-            android:screenOrientation="portrait" >
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

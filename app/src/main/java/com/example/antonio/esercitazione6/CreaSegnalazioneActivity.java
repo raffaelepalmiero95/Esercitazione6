@@ -92,6 +92,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     LocationManager locationManager ;
     boolean GpsStatus ;
 
+    //variabile dialog
+    private boolean v_dialog=true;
+
 
 
     @Override
@@ -127,6 +130,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                 // cliccando su mappa salva la posizione sul db cercata in mappa, se non clicchi su mappa salva la posizione attuale del dispositivo
                 if(GpsStatus == true) {
                     click = false;
+                    v_dialog = false;
                     Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
                     vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
                     startActivityForResult(vai_alla_mappa, 1);
@@ -149,24 +153,75 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                         Toast.makeText(getApplicationContext(), "Inserisci una descrizione valida", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo
+                    //l'utente ancora non ha preso cura della posizione che sta inviando
+                    if (v_dialog) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CreaSegnalazioneActivity.this);
+                        builder.setTitle("Position");
+                        builder.setMessage("Vuoi Utilizzare la posizione attuale?");
+                        builder.setNegativeButton("Mappa", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                v_dialog = false;
+                                Intent Mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
+                                startActivity(Mappa);
 
-                    //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
-                    if (senza_foto) {
+
+                            }
+                        });
+                        builder.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                v_dialog = true;
+                                //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
+                                if (senza_foto) {
+                                    //scrittura sul database della segnalazione
+                                    scriviDatabase();
+                                } else { //altrimenti carica anche con la foto
+                                    //scrittura sul database della segnalazione
+                                    scriviDatabase();
+                                    //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                                    if (foto_gall) {
+                                        uploadFotocamera();
+                                    } else {
+                                        uploadFile();
+                                    }
+                                }
+                                Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
+                                Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
+                                startActivity(fine_segnalazione);
+
+
+                            }
+                        }).create().show();
+                    }
+                    //in questo caso l'utente ha preso cura della posizione che sta inviando
+                    else
+                        {
+                            if (senza_foto)
+                            {
                         //scrittura sul database della segnalazione
                         scriviDatabase();
-                    } else { //altrimenti carica anche con la foto
+
+                            } else
+                                { //altrimenti carica anche con la foto
                         //scrittura sul database della segnalazione
                         scriviDatabase();
                         //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
-                        if (foto_gall) {
+                        if (foto_gall)
+                        {
                             uploadFotocamera();
                         } else {
                             uploadFile();
                         }
-                    }
-                    Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
-                    Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
-                    startActivity(fine_segnalazione);
+
+                                }
+                        Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
+                        Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
+                        startActivity(fine_segnalazione);
+                        }
+
+
                 }
                 else {
                     Toast.makeText(CreaSegnalazioneActivity.this, "Segnale GPS assente", Toast.LENGTH_SHORT).show();
