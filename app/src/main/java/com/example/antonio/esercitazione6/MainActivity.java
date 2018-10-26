@@ -114,24 +114,31 @@ public class MainActivity extends AppCompatActivity { //map invece di app compat
                 }
                 finish(); //21 ottobre
             }});
-        segnala.setOnClickListener(new View.OnClickListener() {
+        segnala.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                     //se non è attivo il gps, ma l'utente è loggato chiede di attivare il gps altrimenti chiede il login
-                    if (auth.getCurrentUser() != null) {
+                    if (auth.getCurrentUser() != null)
+                    {
                         CheckGpsStatus() ;
-                        if(GpsStatus == true) {
+                        if(GpsStatus == true)
+                        {
                             startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
-                        } else {
-                            Toast.makeText(MainActivity.this, "Attiva il GPS per poter inviare una segnalazione", Toast.LENGTH_SHORT).show();
+                        }else
+                            {
+                                Toast.makeText(MainActivity.this, "Attiva il GPS per poter inviare una segnalazione", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                    }else
+                        {
+                            Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
+                            startActivity(passa_alla_segnalazione);
                         }
-                    }
-                else {
-                    Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(passa_alla_segnalazione);
-                }
                 finish(); //21 ottobre
-            }});
+            }
+        });
         //per vedere in real time quello che viene scritto in evento sul database
         mostra_evento = findViewById(R.id.evento);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
