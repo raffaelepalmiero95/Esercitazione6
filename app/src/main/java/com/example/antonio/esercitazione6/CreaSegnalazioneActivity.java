@@ -97,6 +97,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
