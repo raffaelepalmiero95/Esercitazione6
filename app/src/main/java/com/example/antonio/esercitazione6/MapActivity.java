@@ -117,13 +117,6 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
 
     }
 
-    public void CheckGpsStatus(){
-
-        locationManager = (LocationManager)getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
-
-        GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-    }
 
 
     //inizializzo la mappa
@@ -209,6 +202,7 @@ public class MapActivity extends SignupActivity implements OnMapReadyCallback {
         resultIntent.putExtra("Posizione", Posizione);
         setResult(RESULT_OK, resultIntent);
         return Posizione;
+
     }
 
 
