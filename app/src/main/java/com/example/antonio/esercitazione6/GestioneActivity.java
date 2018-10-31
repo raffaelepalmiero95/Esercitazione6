@@ -1,8 +1,10 @@
 package com.example.antonio.esercitazione6;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -94,6 +96,7 @@ public class GestioneActivity extends AppCompatActivity {
         });
 
 //rimuovere l'utente dal database
+         /* funzionante
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +120,48 @@ public class GestioneActivity extends AppCompatActivity {
                 }
             }
         });
+        */
+
+        //prova 31 ottobre
+        btnRemoveUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(GestioneActivity.this);
+            builder.setTitle("Attenzione");
+            builder.setMessage("Questa operazione eliminerà in modo permanente il tuo account. L'azione è irreversibile.");
+            builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    closeOptionsMenu();
+                }
+            });
+            builder.setPositiveButton("Elimina", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    if (user != null) {
+                        user.delete()
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(GestioneActivity.this, "Il tuo profilo è stato eliminato", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(GestioneActivity.this, MainActivity.class));
+                                            finish();
+                                            progressBar.setVisibility(View.GONE);
+                                        } else {
+                                            Toast.makeText(GestioneActivity.this, "Impossibile eliminare il tuo account", Toast.LENGTH_SHORT).show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }).create().show();
+            }
+        });
+        //
+
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -58,7 +58,7 @@ public class BachecaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adattatore, final View componente, int pos, long id){
                 final String riga = (String) adattatore.getItemAtPosition(pos);
-                Toast.makeText(getApplicationContext(), "Descrizione problema: " + riga, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Segnalazione: " + riga, Toast.LENGTH_LONG).show();
             }
         });
 
