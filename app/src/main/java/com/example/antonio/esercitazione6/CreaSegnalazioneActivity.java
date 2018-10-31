@@ -96,9 +96,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     private boolean v_dialog=true;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
