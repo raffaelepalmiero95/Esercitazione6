@@ -10,7 +10,6 @@
     tools:ignore="DuplicateIds">
 
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="200dp"
@@ -24,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.027"
-        app:srcCompat="@drawable/icona_account"
+        app:srcCompat="@drawable/profilovuoto3"
         tools:ignore="UnknownId,VectorDrawableCompat" />
 
     <ImageButton

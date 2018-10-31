@@ -106,7 +106,7 @@ public class BachecaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent button_torna_alla_home2 = new Intent(BachecaActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
-                finish(); //aggiunto il 16 ottobre per chiuedere la lista dopo essere tornati in bacheca
+                finish();
             }});
     }
 }

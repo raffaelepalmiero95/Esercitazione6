@@ -54,7 +54,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity { //map invece di app compat 20 ottobre
+public class MainActivity extends AppCompatActivity {
     //dichiarazione variabili
     private Button login;
     private Button bacheca;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity { //map invece di app compat
                     Intent passa_alla_bacheca = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(passa_alla_bacheca);
                 }
-                finish(); //21 ottobre
+                finish();
             }});
         segnala.setOnClickListener(new View.OnClickListener()
         {
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity { //map invece di app compat
                             Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
                             startActivity(passa_alla_segnalazione);
                         }
-                finish(); //21 ottobre
+                finish();
             }
         });
         //per vedere in real time quello che viene scritto in evento sul database

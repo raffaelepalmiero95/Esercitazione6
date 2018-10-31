@@ -5,9 +5,8 @@ public class DettaglioSegnalazione {
     private double Longitudine;
     private String Descrizione_Problema;
     private String URL;
-    //20 ottobre
     private String Data;
-    //
+
 
     public DettaglioSegnalazione() {
 
@@ -18,12 +17,9 @@ public class DettaglioSegnalazione {
         this.Longitudine = longitudine;
         this.Descrizione_Problema = problema;
         this.URL = URL;
-        //20 ottobre
         this.Data = data;
-        //
     }
 
-//20 ottobre
     public String getData() {
         return Data;
     }
@@ -31,7 +27,6 @@ public class DettaglioSegnalazione {
     public void setData(String data) {
         Data = data;
     }
-    //
 
     public double getLatitudine() {
         return Latitudine;

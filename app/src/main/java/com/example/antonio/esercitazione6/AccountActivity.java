@@ -90,8 +90,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,8 +104,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         prendi_cognome = findViewById(R.id.prendiCognome);
         prendi_email = findViewById(R.id.prendiEmail);
         prendi_residenza = findViewById(R.id.prendiResidenza);
-
-
 
 
 //pulsante di login
@@ -125,8 +121,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             log.setText("Gestione Account");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-            //12 ottobre
             storageReference = FirebaseStorage.getInstance().getReference();
             final StorageReference Ref = storageReference.child("Immagini/" + user.getUid() + "/Immagine_Profilo/" + "Profilo" );
             Ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -137,8 +131,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                     Glide.with(getApplicationContext()).load(URL_profilo).into(profile_img);
                 }
             });
-
-            //
 
             final DatabaseReference mRef = database.getReference("Users/" + user.getUid() + "/Dati_Utente");
             mRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
@@ -168,7 +160,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 Intent button_torna_alla_home2 = new Intent(AccountActivity.this,MainActivity.class);
                 startActivity(button_torna_alla_home2);
-                finish(); //aggiunto 16 ottobre così premendo il tasto indietro si è chiusa la finestra account definitivamente
+                finish();
             }});
     }
 

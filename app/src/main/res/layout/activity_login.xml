@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icona_account"
+        app:srcCompat="@mipmap/ic_launcher_foreground"
         tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
     <ProgressBar

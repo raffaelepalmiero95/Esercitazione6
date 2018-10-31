@@ -247,11 +247,9 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         myRef.child("Segnalazioni_Comune").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("Email").setValue(user.getEmail());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("ID").setValue(user.getUid());
-
-        //20 ottobre
         myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Data").setValue(Date.toString());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Data").setValue(Date.toString());
-        //
+
 
         if (click) {
             myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
