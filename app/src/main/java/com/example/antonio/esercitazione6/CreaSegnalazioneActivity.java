@@ -121,7 +121,7 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
             public void onClick(View view) {
                 Intent torna_alla_home = new Intent(CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(torna_alla_home);
-                finish(); //aggiunto il 16 ottobre per chiuedere crea segnalazione dopo aver fatto annulla
+                finish();
             }});
 
         mappa.setOnClickListener(new View.OnClickListener() {
