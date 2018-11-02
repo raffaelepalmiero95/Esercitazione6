@@ -18,6 +18,7 @@ public class VerificaEmail extends AppCompatActivity
 
     private Button verifica;
     private FirebaseAuth auth;
+    private Button rimanda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +26,7 @@ public class VerificaEmail extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verifica_email);
         verifica = findViewById(R.id.button);
+        rimanda = findViewById(R.id.button2);
         verifica.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -45,6 +47,25 @@ public class VerificaEmail extends AppCompatActivity
                         }
                     });
                 }
+            }
+        });
+
+        rimanda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            Toast.makeText(VerificaEmail.this, "Email di verifica inviata nuovamente", Toast.LENGTH_SHORT).show();
+                        }
+                        else{ Toast.makeText(VerificaEmail.this, "Email di verifica non inviata", Toast.LENGTH_SHORT).show();}
+                    }
+                });
             }
         });
     }
