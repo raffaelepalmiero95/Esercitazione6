@@ -31,6 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -116,63 +117,79 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         Date = simpleDateFormat.format(calendar.getTime());
 
 
-        annulla.setOnClickListener(new View.OnClickListener() {
+        annulla.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent torna_alla_home = new Intent(CreaSegnalazioneActivity.this,MainActivity.class);
                 startActivity(torna_alla_home);
                 finish();
-            }});
+            }
+        });
 
-        mappa.setOnClickListener(new View.OnClickListener() {
+        mappa.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //check segnale gps
                 CheckGpsStatus() ;
                 // cliccando su mappa salva la posizione sul db cercata in mappa, se non clicchi su mappa salva la posizione attuale del dispositivo
-                if(GpsStatus == true) {
+                if(GpsStatus == true)
+                {
                     click = false;
                     v_dialog = false;
                     Intent vai_alla_mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
                     vai_alla_mappa.putExtra("Descrizione problema", problema.getText().toString());
                     startActivityForResult(vai_alla_mappa, 1);
-                }
-                else {
-                    Toast.makeText(CreaSegnalazioneActivity.this, "Attiva il GPS per avere accesso alla mappa", Toast.LENGTH_SHORT).show();
-                }
-            }});
+                }else
+                    {
+                        Toast.makeText(CreaSegnalazioneActivity.this, "Attiva il GPS per avere accesso alla mappa", Toast.LENGTH_SHORT).show();
+                    }
+            }
+        });
 
-           invio.setOnClickListener(new View.OnClickListener() {
+           invio.setOnClickListener(new View.OnClickListener()
+           {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
                 //check segnale gps
                 CheckGpsStatus() ;
 
-                if(GpsStatus == true) {
+                if(GpsStatus == true)
+                {
 
-                    if (TextUtils.isEmpty(problema.getText().toString())) {
+                    if (TextUtils.isEmpty(problema.getText().toString()))
+                    {
                         Toast.makeText(getApplicationContext(), "Inserisci una descrizione valida", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     //verifico lo stato di v_dialog per capire se aprire o meno la finestra di dialogo
                     //l'utente ancora non ha preso cura della posizione che sta inviando
-                    if (v_dialog) {
+                    if (v_dialog)
+                    {
                         AlertDialog.Builder builder = new AlertDialog.Builder(CreaSegnalazioneActivity.this);
                         builder.setTitle("Attenzione");
                         builder.setMessage("Cliccando INVIA salverà la posizione corrente. Per modificare la posizione cliccare su INDIETRO e infine su mappa.");
-                        builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton("Indietro", new DialogInterface.OnClickListener()
+                        {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
                                 v_dialog = false;
                                 /*Intent Mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
                                 startActivity(Mappa);*/
                                 closeOptionsMenu();
                             }
                         });
-                        builder.setPositiveButton("Invia", new DialogInterface.OnClickListener() {
+                        builder.setPositiveButton("Invia", new DialogInterface.OnClickListener()
+                        {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(DialogInterface dialog, int which)
+                            {
                                 v_dialog = true;
                                 //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
 
@@ -180,72 +197,83 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 if (user.isEmailVerified())
                                 {
-                                    if (senza_foto) {
+                                    if (senza_foto)
+                                    {
                                     //scrittura sul database della segnalazione
                                     scriviDatabase();
-                                } else { //altrimenti carica anche con la foto
-                                    //scrittura sul database della segnalazione
-                                    scriviDatabase();
-                                    //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
-                                    if (foto_gall) {
-                                        uploadFotocamera();
-                                    } else {
-                                        uploadFile();
-                                    }
-                                }
-                                Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
-                                Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
-                                startActivity(fine_segnalazione);
+                                    }else
+                                        {
+                                            //altrimenti carica anche con la foto
+                                            //scrittura sul database della segnalazione
+                                            scriviDatabase();
+                                            //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                                            if (foto_gall)
+                                            {
+                                                uploadFotocamera();
+                                            }else
+                                                {
+                                                    uploadFile();
+                                                }
+                                        }
+                                        Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
+                                    Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
+                                    startActivity(fine_segnalazione);
                                 }
                                 // 2 Ottobre2018
-                                else{Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();}
-
+                                else
+                                {
+                                    Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }).create().show();
                     }
                     //in questo caso l'utente ha preso cura della posizione che sta inviando
-                    else {
-                        // 2 Ottobre2018
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        if (user.isEmailVerified())
+                    else
                         {
-
-                        if (senza_foto) {
-                            //scrittura sul database della segnalazione
-                            scriviDatabase();
-
-                        } else { //altrimenti carica anche con la foto
-                            //scrittura sul database della segnalazione
-                            scriviDatabase();
-                            //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
-                            if (foto_gall) {
-                                uploadFotocamera();
-                            } else {
-                                uploadFile();
-                            }
-
-                        }
-                        Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
-                        Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
-                        startActivity(fine_segnalazione);
+                            // 2 Ottobre2018
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user.isEmailVerified())
+                            {
+                                if (senza_foto)
+                                {
+                                    //scrittura sul database della segnalazione
+                                    scriviDatabase();
+                                }else
+                                    {
+                                        //altrimenti carica anche con la foto
+                                        //scrittura sul database della segnalazione
+                                        scriviDatabase();
+                                        //se premi carica foto da galleria, la carica dalla galleria, altrimenti da fotocamera
+                                        if (foto_gall){
+                                            uploadFotocamera();
+                                        }else
+                                            {
+                                                uploadFile();
+                                            }
+                                    }
+                                    Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
+                                Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
+                                startActivity(fine_segnalazione);
                     }
-                    // 2 Ottobre 2018
-                    else{Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();}
+                    // 2 ttobre 2018
+                    else
+                        {
+                                    Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();
                         }
 
-
+                    }
                 }
-                else {
-                    Toast.makeText(CreaSegnalazioneActivity.this, "Segnale GPS assente", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }});
-
+                else
+                    {
+                        Toast.makeText(CreaSegnalazioneActivity.this, "Segnale GPS assente", Toast.LENGTH_SHORT).show();
+                    }
+            }
+           });
     }
 
     //check per la posizione
-    public void CheckGpsStatus(){
+    public void CheckGpsStatus()
+    {
 
         locationManager = (LocationManager)getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
 
@@ -253,7 +281,8 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
     }
 
 
-    public void scriviDatabase(){
+    public void scriviDatabase()
+    {
         myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Descrizione_Problema").setValue(problema.getText().toString());
         myRef.child("Segnalazioni_Comune").child(uuid).child("Account").child("Email").setValue(user.getEmail());
@@ -262,24 +291,27 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
         myRef.child("Segnalazioni_Comune").child(uuid).child("Data").setValue(Date.toString());
 
 
-        if (click) {
+        if (click)
+        {
             myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(Posizione[0]);
             myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(Posizione[1]);
 
             myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(Posizione[0]);
             myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(Posizione[1]);
-        } else {
-            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(posizione[0]);
-            myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(posizione[1]);
+        }else
+            {
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Latitudine").setValue(posizione[0]);
+                myRef.child("Users").child(user.getUid()).child("Segnalazioni").child(uuid).child("Longitudine").setValue(posizione[1]);
 
-            myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(posizione[0]);
-            myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(posizione[1]);
-        }
+                myRef.child("Segnalazioni_Comune").child(uuid).child("Latitudine").setValue(posizione[0]);
+                myRef.child("Segnalazioni_Comune").child(uuid).child("Longitudine").setValue(posizione[1]);
+            }
     }
 
 
     //metodo per caricare foto dalla fotocamera
-    public void uploadFotocamera(){
+    public void uploadFotocamera()
+    {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] b = stream.toByteArray();

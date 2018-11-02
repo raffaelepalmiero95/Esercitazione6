@@ -115,7 +115,7 @@ public class SignupActivity extends AppCompatActivity {
                                                 }
                                             });
 
-                                    startActivity(new Intent(SignupActivity.this, VerificaEmail.class));
+                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                     //
                                 }
