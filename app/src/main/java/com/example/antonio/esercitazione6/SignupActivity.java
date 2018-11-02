@@ -92,6 +92,7 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Email non valida ",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+
                                     //se la mail è valida salva questi dati sul database
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                     DatabaseReference myRef = database.getReference();
@@ -100,9 +101,23 @@ public class SignupActivity extends AppCompatActivity {
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Cognome").setValue(inputCognome.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Email").setValue(inputEmail.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Residenza").setValue(inputResidenza.getText().toString());
+                                    //2 Ottobre 2018
+                                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
+                                            {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task)
+                                                {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(SignupActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    else{ Toast.makeText(SignupActivity.this, "Email di verifica non inviata", Toast.LENGTH_SHORT).show();}
+                                                }
+                                            });
 
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                    startActivity(new Intent(SignupActivity.this, VerificaEmail.class));
                                     finish();
+                                    //
                                 }
                             }
                         });

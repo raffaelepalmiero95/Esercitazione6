@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (auth.getCurrentUser() != null) {
+
                     startActivity(new Intent(MainActivity.this, BachecaActivity.class));
                 }
                 else {
