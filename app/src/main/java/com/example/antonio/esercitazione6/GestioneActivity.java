@@ -95,8 +95,7 @@ public class GestioneActivity extends AppCompatActivity {
             }
         });
 
-//rimuovere l'utente dal database
-         /* funzionante
+/*rimuovere l'utente dal database senza avviso
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +121,7 @@ public class GestioneActivity extends AppCompatActivity {
         });
         */
 
-        //prova 31 ottobre
+        //rimuovere l'utente dal database con avviso
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +159,7 @@ public class GestioneActivity extends AppCompatActivity {
             }).create().show();
             }
         });
-        //
+
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override

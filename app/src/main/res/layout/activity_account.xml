@@ -122,7 +122,7 @@
 
     <TextView
         android:id="@+id/prendiNome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:hint="Nome"
@@ -135,7 +135,7 @@
 
     <TextView
         android:id="@+id/prendiCognome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:hint="Cognome"
@@ -148,7 +148,7 @@
 
     <TextView
         android:id="@+id/prendiEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:hint="Email"
@@ -161,7 +161,7 @@
 
     <TextView
         android:id="@+id/prendiResidenza"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:hint="Residenza"

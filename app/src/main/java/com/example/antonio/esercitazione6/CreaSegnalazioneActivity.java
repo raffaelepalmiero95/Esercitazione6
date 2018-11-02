@@ -180,8 +180,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                             public void onClick(DialogInterface dialog, int which)
                             {
                                 v_dialog = false;
-                                /*Intent Mappa = new Intent(CreaSegnalazioneActivity.this, MapActivity.class);
-                                startActivity(Mappa);*/
                                 closeOptionsMenu();
                             }
                         });
@@ -193,10 +191,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                 v_dialog = true;
                                 //senza foto significa che se non è stato premuto il pulsante fotocamera carica tutto tranne la foto
 
-                                //2 Ottobre 2018
-                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                if (user.isEmailVerified())
-                                {
                                     if (senza_foto)
                                     {
                                     //scrittura sul database della segnalazione
@@ -218,22 +212,12 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                         Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
                                     Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
                                     startActivity(fine_segnalazione);
-                                }
-                                // 2 Ottobre2018
-                                else
-                                {
-                                    Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();
-                                }
                             }
                         }).create().show();
                     }
                     //in questo caso l'utente ha preso cura della posizione che sta inviando
                     else
                         {
-                            // 2 Ottobre2018
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (user.isEmailVerified())
-                            {
                                 if (senza_foto)
                                 {
                                     //scrittura sul database della segnalazione
@@ -254,13 +238,6 @@ public class CreaSegnalazioneActivity extends MapActivity implements View.OnClic
                                     Toast.makeText(CreaSegnalazioneActivity.this, "Segnalazione inviata con successo", Toast.LENGTH_SHORT).show();
                                 Intent fine_segnalazione = new Intent(CreaSegnalazioneActivity.this, MainActivity.class);
                                 startActivity(fine_segnalazione);
-                    }
-                    // 2 ttobre 2018
-                    else
-                        {
-                                    Toast.makeText(CreaSegnalazioneActivity.this, "Per poter inviare una segnalazione verifica la tua email", Toast.LENGTH_SHORT).show();
-                        }
-
                     }
                 }
                 else

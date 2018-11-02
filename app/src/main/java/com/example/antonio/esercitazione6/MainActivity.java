@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     Intent passa_alla_bacheca = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(passa_alla_bacheca);
                 }
-                finish();
             }});
         segnala.setOnClickListener(new View.OnClickListener()
         {
@@ -126,7 +125,20 @@ public class MainActivity extends AppCompatActivity {
                         CheckGpsStatus() ;
                         if(GpsStatus == true)
                         {
-                            startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user.isEmailVerified()) {
+
+                                startActivity(new Intent(MainActivity.this, CreaSegnalazioneActivity.class));
+
+                            }
+
+                            else
+                            {
+                                Intent verifica_email = new Intent(MainActivity.this,VerificaEmail.class);
+                                startActivity(verifica_email);
+                                finish();
+                            }
+
                         }else
                             {
                                 Toast.makeText(MainActivity.this, "Attiva il GPS per poter inviare una segnalazione", Toast.LENGTH_SHORT).show();
@@ -137,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                             Intent passa_alla_segnalazione = new Intent(MainActivity.this,LoginActivity.class);
                             startActivity(passa_alla_segnalazione);
                         }
-                finish();
             }
         });
         //per vedere in real time quello che viene scritto in evento sul database

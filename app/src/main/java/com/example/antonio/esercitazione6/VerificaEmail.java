@@ -33,17 +33,14 @@ public class VerificaEmail extends AppCompatActivity
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user.isEmailVerified())
                 {
-                    startActivity(new Intent(VerificaEmail.this, MainActivity.class));
-                    finish();
+                    startActivity(new Intent(VerificaEmail.this, CreaSegnalazioneActivity.class));
                 }
                 else {
                     user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {
-                            Toast.makeText(VerificaEmail.this, "Verifica la tua email", Toast.LENGTH_SHORT).show();
-
-
+                            Toast.makeText(VerificaEmail.this, "E' necessario verificare la tua email!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

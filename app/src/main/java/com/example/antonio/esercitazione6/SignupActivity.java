@@ -101,7 +101,7 @@ public class SignupActivity extends AppCompatActivity {
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Cognome").setValue(inputCognome.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Email").setValue(inputEmail.getText().toString());
                                     myRef.child("Users").child(user.getUid()).child("Dati_Utente").child("Residenza").setValue(inputResidenza.getText().toString());
-                                    //2 Ottobre 2018
+
                                     user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>()
                                             {
                                                 @Override
@@ -117,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
-                                    //
+
                                 }
                             }
                         });
