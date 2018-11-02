@@ -34,6 +34,7 @@ public class VerificaEmail extends AppCompatActivity
                 if(user.isEmailVerified())
                 {
                     startActivity(new Intent(VerificaEmail.this, CreaSegnalazioneActivity.class));
+                    finish();
                 }
                 else {
                     user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
