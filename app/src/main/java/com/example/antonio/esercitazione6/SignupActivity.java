@@ -1,7 +1,9 @@
 package com.example.antonio.esercitazione6;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -109,14 +111,25 @@ public class SignupActivity extends AppCompatActivity {
                                                 {
                                                     if(task.isSuccessful())
                                                     {
-                                                        Toast.makeText(SignupActivity.this, "Email di verifica inviata", Toast.LENGTH_SHORT).show();
+                                                        AlertDialog.Builder builder = new AlertDialog.Builder(SignupActivity.this);
+                                                        builder.setTitle("Attenzione");
+                                                        builder.setMessage("Ti è stata inviata in email,verifica il linnk per poter inviare una segnalazione");
+                                                        builder.setNegativeButton("OK", new DialogInterface.OnClickListener()
+                                                        {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which)
+                                                            {
+                                                                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                                                                finish();
+                                                            }
+                                                        }).create().show();
+
                                                     }
                                                     else{ Toast.makeText(SignupActivity.this, "Email di verifica non inviata", Toast.LENGTH_SHORT).show();}
                                                 }
                                             });
 
-                                    startActivity(new Intent(SignupActivity.this, MainActivity.class));
-                                    finish();
+
 
                                 }
                             }

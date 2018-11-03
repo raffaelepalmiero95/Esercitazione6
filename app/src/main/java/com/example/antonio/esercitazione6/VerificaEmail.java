@@ -18,6 +18,7 @@ public class VerificaEmail extends AppCompatActivity
 
     private Button verifica;
     private FirebaseAuth auth;
+
     private Button rimanda;
 
     @Override
